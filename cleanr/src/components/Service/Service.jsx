@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function AuthPage() {
+export default function Service() {
     return (
         <div>
-            I'm the Auth Page
+            Service
         </div>
     )
 }

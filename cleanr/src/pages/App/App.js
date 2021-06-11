@@ -1,5 +1,9 @@
+import { Switch, Route, Redirect} from 'react-router-dom';
 import './App.css';
 import AuthPage from '../AuthPage/AuthPage';
+import AppointmentsPage from '../AppointmentsPage/AppointmentsPage';
+import MapPage from '../MapPage/MapPage';
+import ServicesPage from '../ServicesPage/ServicesPage';
 
 function App() {
 
@@ -7,9 +11,20 @@ function App() {
   return (
     <div className="App">
       <h1>cleanR</h1>
-      <h2>Welcome to cleanR</h2>
+      <Switch>
+        <Route path="/appointments">
+          <AppointmentsPage />
+        </Route>
+        <Route path="/map">
+          <MapPage/>
+        </Route>
+        <Route path="/services">
+          <ServicesPage />
+        </Route>
 
-      <AuthPage />
+        
+        <AuthPage />
+      </Switch>
     </div>
   );
 }
