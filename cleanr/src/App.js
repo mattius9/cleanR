@@ -5,13 +5,23 @@ function App() {
   return (
     <div className="App">
       <h1>cleanR</h1>
-<<<<<<< HEAD
       <h2>Welcome to cleanR</h2>
-=======
-      <h2>by MR productions</h2>
->>>>>>> f768db7c18b480d601c398cb54fd37ef31b8281c
     </div>
   );
 }
 
 export default App;
+<header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
