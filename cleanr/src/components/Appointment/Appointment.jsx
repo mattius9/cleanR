@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function AuthPage() {
+export default function Appointment() {
     return (
         <div>
-            I'm the Auth Page
+            Appointment
         </div>
     )
 }
