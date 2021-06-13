@@ -1,7 +1,7 @@
 import './MapPage.css';
 import React, { useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet';
 import { getCurrentLatLng } from '../../utilities/geolocation';
 
 export default function MapPage() {
@@ -11,15 +11,15 @@ export default function MapPage() {
 
     function LocationMarker() {
         const [position, setPosition] = useState(null)
-        const map = useMapEvents({
-          click() {
-            map.locate()
-          },
-          locationfound(e) {
-            setPosition(e.latlng)
-            map.flyTo(e.latlng, map.getZoom())
-          },
-        })
+        
+        const map = useMap();
+
+        useEffect(() => {
+            map.locate().on("locationfound", function(e){
+                setPosition(e.latlng)
+                map.panTo(e.latlng)
+            });
+        }, [map]);
       
         return position === null ? null : (
           <Marker position={position}>
@@ -27,12 +27,6 @@ export default function MapPage() {
           </Marker>
         )
       }
-    
-    // useEffect( async () => {
-    //     const {lat,lng} = await getCurrentLatLng();
-    //     setLat(lat);
-    //     setLng(lng);
-    // },[]);
 
     return (
         <div className="Page">
