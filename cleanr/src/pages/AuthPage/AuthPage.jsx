@@ -1,10 +1,18 @@
 import React from 'react';
 import './AuthPage.css';
+import LoginForm from '../../components/LoginForm/LoginForm';
 
-export default function AuthPage() {
+function propsDisplay(props){
+    console.log(props.setUser('Doug'))
+}
+
+// make login form and signup toggle
+export default function AuthPage(props) {
+    var view = 0; //there will be four views: one for login, one for signup pt1, one for signup pt 2, one for signup review and create
     return (
-        <div className="Page">
-            I'm the Auth Page
+        <div>
+            <button onClick={()=>{propsDisplay(props)}}>PROPS</button>
+            <LoginForm />
         </div>
     )
 }

@@ -1,16 +1,18 @@
 import { Switch, Route, Link, Redirect} from 'react-router-dom';
 import './App.css';
+import React,{useState} from 'react';
 import AuthPage from '../AuthPage/AuthPage';
 import AppointmentsPage from '../AppointmentsPage/AppointmentsPage';
 import MapPage from '../MapPage/MapPage';
 import ServicesPage from '../ServicesPage/ServicesPage';
 
 function App() {
-
+  const [user, setUser] = useState(null);
 
   return (
     <div className="App">
       <header className="App-header">cleanR</header>
+      { user ? 
       <Switch>
         <Route path="/appointments">
           <AppointmentsPage />
@@ -21,11 +23,10 @@ function App() {
         <Route path="/services">
           <ServicesPage />
         </Route>
-
-        
-        <AuthPage />
-
       </Switch>
+        :        
+        <AuthPage setUser={setUser}/>
+      }
       <nav>
         <Link to="/appointments">Appointments</Link>
             |
@@ -35,7 +36,8 @@ function App() {
             |
         <Link to="/">Home</Link>
       </nav>
-      
+      <button onClick={()=>{setUser('Doug')}}>Doug</button>
+      <button onClick={()=>{setUser(null)}}>Null</button>
     </div>
   );
 }
