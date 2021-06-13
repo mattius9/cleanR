@@ -3,7 +3,7 @@ import './Appointment.css';
 
 export default function Appointment(props) {
     return (
-        <div className="Appointment">
+        <div className="card">
             Appointment
             <p>Date: </p>
             <p>Start Time: </p>

@@ -38,11 +38,6 @@ export default function MapPage() {
                 />
                 <LocationMarker />
             </MapContainer>
-            <Link to="/appointments">Appointments</Link>
-            |
-            <Link to="services">Services</Link>
-            |
-            <Link to="/">Home</Link>
         </div>
     )
 }

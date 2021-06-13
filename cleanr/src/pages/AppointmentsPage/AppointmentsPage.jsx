@@ -8,11 +8,6 @@ export default function AppointmentsPage() {
         <div className="Page">
             Appointments Page
             <AppointmentList/>
-            <Link to="/map">Map</Link>
-            |
-            <Link to="services">Services</Link>
-            |
-            <Link to="/">Home</Link>
         </div>
     )
 }
