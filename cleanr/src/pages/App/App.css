@@ -1,10 +1,11 @@
 .App {
   text-align: center;
+  background: var(--clr-neutral-100);
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: var(--clr-neutral-900);
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,4 +20,16 @@
 
 #mapid{
   height: 180px;
+}
+
+.Page{
+  text-align: center;
+  border: 1px solid green;
+  width: 80%;
+}
+
+.Component{
+  text-align: center;
+  border: 1px solid red;
+  width: 60%;
 }

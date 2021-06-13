@@ -1,0 +1,11 @@
+.Appointment{
+    border: 1px solid red;
+    width: 60%;
+    font-size: .75rem;
+    text-align: left;
+    padding: 0px 10px;
+    color: var(--clr-accent-400);
+}
+p{
+    margin: 0.25rem 0;
+}

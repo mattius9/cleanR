@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>cleanR</h1>
+      <header className="App-header">cleanR</header>
       <Switch>
         <Route path="/appointments">
           <AppointmentsPage />
