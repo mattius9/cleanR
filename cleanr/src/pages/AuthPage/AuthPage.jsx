@@ -3,7 +3,7 @@ import './AuthPage.css';
 
 export default function AuthPage() {
     return (
-        <div>
+        <div className="Page">
             I'm the Auth Page
         </div>
     )

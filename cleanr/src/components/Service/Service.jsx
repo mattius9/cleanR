@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Service() {
     return (
-        <div className="Component">
+        <div className="card">
             Service
             <p>Type:</p>
             <p>Hourly Price:</p>

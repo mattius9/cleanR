@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect} from 'react-router-dom';
+import { Switch, Route, Link, Redirect} from 'react-router-dom';
 import './App.css';
 import AuthPage from '../AuthPage/AuthPage';
 import AppointmentsPage from '../AppointmentsPage/AppointmentsPage';
@@ -24,7 +24,18 @@ function App() {
 
         
         <AuthPage />
+
       </Switch>
+      <nav>
+        <Link to="/appointments">Appointments</Link>
+            |
+        <Link to="services">Services</Link>
+            |
+        <Link to="/map">Map</Link>
+            |
+        <Link to="/">Home</Link>
+      </nav>
+      
     </div>
   );
 }

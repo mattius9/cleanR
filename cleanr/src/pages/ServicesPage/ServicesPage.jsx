@@ -8,11 +8,6 @@ export default function ServicesPage() {
         <div className="Page">
             Services Page
             <ServiceList />
-            <Link to="/appointments">Appointments</Link>
-            |
-            <Link to="map">Map</Link>
-            |
-            <Link to="/">Home</Link>
         </div>
     )
 }
