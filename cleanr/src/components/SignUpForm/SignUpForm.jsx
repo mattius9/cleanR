@@ -24,8 +24,13 @@ export default function SignUpForm(props) {
         // signUpView=2;
         console.log(signUpView)
     }
+    function handleSubmit(e){
 
+    }
     function signUpViewCheck(num){
+        let errorString="";
+        let errorEl = document.getElementById('errorMessage')
+        
         if(num===1){
             let validEls = []
            let els= document.getElementById('signUpForm').querySelectorAll("[required]");
@@ -34,23 +39,60 @@ export default function SignUpForm(props) {
            els.forEach(el=>{validEls.push(el.reportValidity())})
            let count = validEls.filter(Boolean).length
            console.log(count)
-           if (roleCount === 0){
-            setError('Please select a role!')
-            changeSignUpView(0)
-        }
-        else if (roleCount >0){
-            setError('');
-        }
-           if (els.length === count && roleCount>0) {
-               console.log('all clear')
-               changeSignUpView(1)
-           }       }
-           else if(num===0){
+           validEls.forEach((valid, index) => {
+               if(!valid){
+                els[index].style.background='red'
+                els[index].style.color='white'
+               }
+               else{
+                els[index].style.background='white'
+                els[index].style.color='black'
+               }
+            }) 
+            //TODO email in db? 
+            //TODO username exists in db?
+            if(!email.includes('@')) errorString+="-Missing domain on email <br/>"
+            if(email.length<3) errorString+="-Email invalid<br/>"
+            if (password !== confirmPassword){
+                errorString="- Passwords do not match <br/>"
+            }
+            if(agentCheck==false && clientCheck==false){
+                errorString+="-Please select a role <br/>"
+            }
+            if(password.length < 8) (errorString+="- Password must be at least 8 characters <br/>")
+        if(errorString.length !== 0) return errorEl.innerHTML=errorString
+        if (els.length === count && errorString.length ===0) {
+                errorEl.innerHTML=""
                changeSignUpView(num)
            }
-           else if(num===2){
-               changeSignUpView(num)
-           }
+        }
+        else if(num===0){
+            changeSignUpView(num)
+        }
+        else if(num===2){
+            changeSignUpView(num)
+        }
+        else if(num===3){
+            let validEls = []
+           let els= document.getElementById('signUpForm').querySelectorAll("[required]");
+           
+           console.log(els)
+           els.forEach(el=>{el.reportValidity()});
+           els.forEach(el=>{validEls.push(el.reportValidity())})
+           let count = validEls.filter(Boolean).length
+           validEls.forEach((valid, index) => valid ? els[index].style.background='red':null)
+           console.log(count)
+           if (els.length === count) {
+            setError("What's your address?")
+            changeSignUpView(num)
+        }
+        else{
+            setError('Please fill out all the required fields!')
+        }
+        }
+        else if(num===4){
+            changeSignUpView(num)
+        }
 
 
     }
@@ -64,50 +106,37 @@ export default function SignUpForm(props) {
     }
 
 
-    const[roleCount, setRoleCount] = useState(0)
     const [signUpView, changeSignUpView]=useState(0)
+
     const [userName, setUserName] = useInput({type: "text"}, "Username", "required");
     const [email, setEmail] = useInput({type: "text"}, "Email", "required");
-    const [address, setAddress] = useInput({type: "text"}, "Address", "required");
     const [password, setPassword] = useInput({type: "password"}, "Password", "required");
     const [confirmPassword, setConfirmPassword] = useInput({type: "password"}, "Confirm Password", "required");
-    const [birthday, setBirthday] = useInput({type:"date"}, "birthday","not required");
+
+    const [addressLine1, setAddressLine1] = useInput({type:"text"}, "1123 Gumdrop Lane", "required")
+    const [addressLine2, setAddressLine2] = useInput({type:"text"}, "basement on the right ", "unrequired")
+    const [unitNumber, setUnitNumber] = useInput({type:"text"}, "2", "unrequired");
+    const [city, setCity] = useInput({type:"text"}, "Toronto", "required");
+    const [country, setCountry] = useInput({type:"text"}, "Canada", "required");
+    const [postalCode, setPostalCode] = useState('')
+
+    const [birthday, setBirthday] = useInput({type:"date"}, "birthday","unrequired");
     const [creditCard, setCreditCard] = useInput({type:'number'},'Credit Card', 'unrequired');
     const [displayName, setDisplayName] = useInput({type:"text"}, "Display Name", "unrequired");
     const [agentCheck, setAgentCheck] = useState(false);
-    const [clientCheck, setClientCheck] = useState(true);
+    const [clientCheck, setClientCheck] = useState(false);
+
+
     const [error, setError] = useState('')
 
 
-    async function roleCounter(e){
+    async function roleSetter(e){
         // await console.log(e.target.checked)
         if(e.target.id === "agent"){
-            console.log(e.target.id)
-            console.log(e.target.checked)
             await setAgentCheck(e.target.checked)
-            console.log(`agent --> ${agentCheck}`)
         }
         else{
-            console.log('client')
             await setClientCheck(e.target.checked)
-        }
-
-
-        if (e.target.checked){
-            await setRoleCount(roleCount+1)
-            await console.log(roleCount)
-        }
-        else {
-            await console.log(roleCount)
-            await setRoleCount(roleCount-1)
-            await console.log(roleCount)
-            if (roleCount === 0){
-                console.log("yup")
-                setRoleCount(0)
-            }
-            else{
-                
-            }
         }
 
     }
@@ -120,56 +149,88 @@ export default function SignUpForm(props) {
         <div className="Component">
             Sign Up
             <form id="signUpForm">
-                {signUpView===0? 
+            {signUpView===0 ? 
+            <div>
+            <label for="username">Usrname:</label>
+            {setUserName} <br />
+            <label for="email">E-mail: </label>
+            {setEmail} <br />
+            {/* <input id="username" placeholder="Password"></input> */}
+            <label for="password"> Password: </label>
+            {setPassword} <br />
+            <label for="confirm-password"> Confirm: </label>
+            {setConfirmPassword}< br />
+            <input onClick={(e)=>{roleSetter(e)}} value={clientCheck} defaultChecked={clientCheck} type="checkbox" id="client" name="client" />
+
+        <label for="client">Client</label>  
+        <input  onClick={(e)=>{roleSetter(e)}} value={agentCheck} defaultChecked={agentCheck}type="checkbox" id="agent" name="agent" />
+        <label for="agent">Agent</label>
+            <button type="button" onClick={()=>{signUpViewCheck(1)}}>Go to next view</button>
+        </div>
+            :
+            (signUpView===1 ?
                 <div>
+                    <div>The map goes here</div>
+                    <button type="button" onClick={()=>{changeSignUpView(0)}}>Go to previous view</button>
+                    <button type="button" onClick={()=>{changeSignUpView(2)}}>Go to next view</button>
 
-                    <label for="username">Usrname:</label>
-                    {setUserName} <br />
-                    <label for="email">E-mail: </label>
-                    {setEmail} <br />
-                    {/* <input id="username" placeholder="Password"></input> */}
-                    <label for="password"> Password: </label>
-                    {setPassword} <br />
-                    <label for="confirm-password"> Confirm: </label>
-                    {setConfirmPassword}
-                    <label for="address"> Address: </label>
-                    {setAddress} <br />
-                    <input onClick={(e)=>{roleCounter(e)}} defaultChecked={clientCheck} type="checkbox" id="client" name="client" />
-
-                <label for="client">Client</label>  
-                <input value={agentCheck} onClick={(e)=>{roleCounter(e)}} type="checkbox" id="agent" name="agent" />
-                <label for="agent">Agent</label>
-                {/* <input type="password" id="password"></input> */}
-                <p>rolecount {roleCount}</p>
-                <p>{error}  </p>AGENT: {agentCheck.toString()}
-                <p>  Client: {clientCheck.toString()}</p>
-                    <button onClick={()=>{signUpViewCheck(1)}}>Go to second view</button>
                 </div>
-                :(signUpView===1 ? 
+             :(signUpView ===2 ?
                 <div>
-                    <label for="birthday">Birthday: </label>
-                    {setBirthday}<br />
-                    <label for="ccn">Credit Card: </label>
-                    {setCreditCard}<br />
-                    <label for="display-name">Display Name</label>
-                    {setDisplayName}
-                    <p onClick={()=>{changeSignUpView(2)}}>----</p>
-                    <button onClick={()=>{signUpViewCheck(0)}}>Go to first view</button>
-                    <button onClick={()=>{changeSignUpView(2)}}>Go to third view</button>
+                    
+                    <label for="addressLine1"> Address : * </label>
+                     {setAddressLine1} <br />
+                     <label for="addressLine2"> Address details: </label>
+                     {setAddressLine2} <br />
+                     <label for="unit"> Unit: </label>
+                     {setUnitNumber} <br />
+                     <label for="city"> City: * </label>
+                     {setCity} <br />
+                     <label for="country"> Country: * </label>
+                     {setCountry} <br />
+                     <label for="postal_code"> Postal Code: * </label>
+                     <input />
+                    <button type="button" onClick={()=>{changeSignUpView(1)}}>Go to previous view</button>
+                    <button type="button" onClick={()=>{signUpViewCheck(3)}}>Go to next view</button>
                 </div>
                 :
+             ((signUpView===3 ?
                 <div>
+                <label for="birthday">Birthday: </label>
+                {setBirthday}<br />
+                <label for="ccn">Credit Card: </label>
+                {setCreditCard}<br />
+                <label for="display-name">Display Name</label>
+                {setDisplayName}
+                <p onClick={()=>{changeSignUpView(2)}}>----</p>
+                    <button type="button" onClick={()=>{changeSignUpView(2)}}>Go to previous view</button>
+                    <button type="button" onClick={()=>{changeSignUpView(4)}}>Go to next view</button>
+            </div>
+              :
+              <div>
+                  <ul>
+                      <li>YSS</li>
+                      <ul>
+                          <li>YESS</li>
+                      </ul>
+                  </ul>
                     <li>User: {userName}</li>
-                    <li>Display Name: {displayName}</li>
+                    {displayName ? <li> Display: {displayName}</li>: null}
                     <li>Email: {email}</li>
-                    <li>Address: {address}</li>
-                    <li>Birthday: {birthday}</li>
-                    <li>Credit Card: {creditCard}</li>
-                    <button onClick={()=>{changeSignUpView(1)}}>Go to second view</button>
-                    <input type="submit" value="Enter!" />
-                </div>)
+                    <li>Address: {addressLine1}</li>
+                    {birthday ? <li> Birthday: {birthday}</li>: null}
+                    {creditCard ? <li> Credit Card: {creditCard}</li>: null}
+                    
+                    <button type="button" onClick={()=>{changeSignUpView(3)}}>Go to previous view</button>
+                    <input onClick={(e)=>{handleSubmit(e)}} type="submit" value="Enter!" />
+                </div>
+               ))))}
+               <div id="errorMessage"></div>
+
+
+
+
                 
-                }
             </form>
             <button onClick={()=>{testThis()}}>stateCheck</button>
             <button onClick={()=>{printPasswords()}}>passCheck</button>
