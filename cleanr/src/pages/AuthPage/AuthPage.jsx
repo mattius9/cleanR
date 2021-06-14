@@ -1,6 +1,7 @@
 import React from 'react';
 import './AuthPage.css';
 import LoginForm from '../../components/LoginForm/LoginForm';
+import SignUpForm from '../../components/SignUpForm/SignUpForm';
 
 function propsDisplay(props){
     console.log(props.setUser('Doug'))
@@ -13,6 +14,8 @@ export default function AuthPage(props) {
         <div>
             <button onClick={()=>{propsDisplay(props)}}>PROPS</button>
             <LoginForm />
+            <SignUpForm />
+
         </div>
     )
 }
