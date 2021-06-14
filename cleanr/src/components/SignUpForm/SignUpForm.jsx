@@ -89,7 +89,7 @@ export default function SignUpForm(props) {
         }
         else{
             console.log('client')
-            await setClientCheck(e.target.value)
+            await setClientCheck(e.target.checked)
         }
 
 
@@ -134,15 +134,15 @@ export default function SignUpForm(props) {
                     {setConfirmPassword}
                     <label for="address"> Address: </label>
                     {setAddress} <br />
-                    <input onChange={async(e) => {await setClientCheck(e.target.value)}} defaultChecked={clientCheck} type="checkbox" id="client" name="client" />
+                    <input onClick={(e)=>{roleCounter(e)}} defaultChecked={clientCheck} type="checkbox" id="client" name="client" />
 
                 <label for="client">Client</label>  
                 <input value={agentCheck} onClick={(e)=>{roleCounter(e)}} type="checkbox" id="agent" name="agent" />
                 <label for="agent">Agent</label>
                 {/* <input type="password" id="password"></input> */}
                 <p>rolecount {roleCount}</p>
-                <p>{error}  </p>AGENT: {agentCheck}
-                <p>  Client: {clientCheck}</p>
+                <p>{error}  </p>AGENT: {agentCheck.toString()}
+                <p>  Client: {clientCheck.toString()}</p>
                     <button onClick={()=>{signUpViewCheck(1)}}>Go to second view</button>
                 </div>
                 :(signUpView===1 ? 
