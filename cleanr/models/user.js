@@ -79,6 +79,7 @@ const userSchema = new Schema({
     required: true
   },
   reviews:[reviewSchema],
+  services:[serviceSchema],
   appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment'}]
 
 } ,{
