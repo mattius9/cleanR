@@ -26,13 +26,13 @@
 
 .Page{
   border: 1px solid green;
-  width: 80%;
+  min-width: 80%;
   max-height: 100vh;
 }
 
 .Component{
   border: 1px solid red;
-  width: 60%;
+  min-width: 60%;
 }
 
 .card {
