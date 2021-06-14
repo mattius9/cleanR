@@ -1,5 +1,7 @@
-
+import './SignUpForm.css';
 import React, {useState, useEffect} from 'react'
+import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
+import { BasemapLayer} from "react-esri-leaflet";
 
 function useInput({ type /*...*/ }, placeholder, required) {
     const [value, setValue] = useState("");
@@ -140,9 +142,40 @@ export default function SignUpForm(props) {
         }
 
     }
-    useEffect(()=>{
-        //console.log(userName)
-    })
+
+    function LocationMarker() {
+        const [position, setPosition] = useState(null)
+        const map = useMap();
+        
+        useEffect(() => {
+            map.locate().on("locationfound", function(e){
+                setPosition(e.latlng);
+                map.panTo(e.latlng);
+                console.log("done");
+                addressFetch(e.latlng.lat, e.latlng.lng);
+            });
+        }, [map]);
+        
+        return position === null ? null : (
+            <Marker position={position}>
+            <Popup>You are here</Popup>
+            </Marker>
+        )
+    }
+
+    // MAP CONFIGURATION
+    const [lat, setLat] = useState(51.505);
+    const [lng, setLng] = useState(-0.09);
+
+    async function addressFetch(lat,lng){
+        let response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=PointAddress&location=${lng}%2C${lat}`);
+        response = await response.json();
+        console.log(response.address);
+        console.log(response.address.Address);
+        // console.log(addressLine1);
+        // console.log(setAddressLine1);
+        // setAdressLine1(response.address.Address);
+    }
 
 
     return (
@@ -170,7 +203,10 @@ export default function SignUpForm(props) {
             :
             (signUpView===1 ?
                 <div>
-                    <div>The map goes here</div>
+                    <MapContainer center={[lat, lng]} zoom={13} scrollWheelZoom={false}>
+                        <BasemapLayer name="Streets" />
+                        <LocationMarker />
+                    </MapContainer>
                     <button type="button" onClick={()=>{changeSignUpView(0)}}>Go to previous view</button>
                     <button type="button" onClick={()=>{changeSignUpView(2)}}>Go to next view</button>
 

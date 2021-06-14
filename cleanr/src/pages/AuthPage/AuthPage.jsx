@@ -13,7 +13,7 @@ function propsDisplay(props){
 export default function AuthPage(props) {
     const[authView, setAuthView]=useState('login'); //there will be four views: one for login, one for signup pt1, one for signup pt 2, one for signup review and create
     return (
-        <div>
+        <div className="Page">
             <Switch>
             {authView === 'login' ? 
             <div className="login">
