@@ -9,6 +9,7 @@ export default function MapPage() {
     const [lat, setLat] = useState(51.505);
     const [lng, setLng] = useState(-0.09);
     const [marker, setMarker] = useState([0,0]);
+    const [markers, setMarkers] = useState([[43.555, 50.666],[50.012,49.555]]);
 
 
     function LocationMarker() {
@@ -17,13 +18,12 @@ export default function MapPage() {
         
         useEffect(() => {
             map.locate().on("locationfound", function(e){
+                // setMarker([89,0]);
                 setPosition(e.latlng);
                 map.panTo(e.latlng);
             });
-        }, [map]);
+        },[]);
 
-        
-        
         return position === null ? null : (
             <Marker position={position}>
             <Popup>You are here</Popup>
@@ -31,11 +31,19 @@ export default function MapPage() {
         )
     }
 
+    useEffect(() => {
+        setMarker([89,0]);
+        setMarkers([[10, -45], [-20, -30], [-30, 70]]);
+        //SET MARKERS USING API CALL FOR APPOINTMENTS
+        
+    },[])
+    
+
 
     return (
         <div className="Page">
             Map Page
-            <MapContainer center={[lat, lng]} zoom={10} scrollWheelZoom={true}>
+            <MapContainer center={[lat, lng]} zoom={1} scrollWheelZoom={true}>
                 <BasemapLayer name="Streets" />
                 <LocationMarker />
 
@@ -43,7 +51,10 @@ export default function MapPage() {
                 <Marker position={marker} />
                 <Marker position={[lat,lng]} />
 
-                
+                {markers.map((position, idx) =>
+                        <Marker key={`marker-${idx}`} position={position}></Marker>
+                )}
+
             </MapContainer>
         </div>
     )
