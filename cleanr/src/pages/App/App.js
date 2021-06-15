@@ -1,4 +1,4 @@
-import { Switch, Route, Link, Redirect} from 'react-router-dom';
+import { Switch, Route, Link} from 'react-router-dom';
 import './App.css';
 import React,{useState} from 'react';
 import AuthPage from '../AuthPage/AuthPage';

@@ -8,8 +8,6 @@ export default function MapPage() {
     // Lat & LNG used for testing
     const [lat, setLat] = useState(51.505);
     const [lng, setLng] = useState(-0.09);
-    const [marker, setMarker] = useState([0,0]);
-    const [markers, setMarkers] = useState([[43.555, 50.666],[50.012,49.555]]);
 
 
     function LocationMarker() {
@@ -18,44 +16,68 @@ export default function MapPage() {
         
         useEffect(() => {
             map.locate().on("locationfound", function(e){
-                // setMarker([89,0]);
                 setPosition(e.latlng);
                 map.panTo(e.latlng);
             });
-        },[]);
+        },[map]);
 
         return position === null ? null : (
             <Marker position={position}>
-            <Popup>You are here</Popup>
+                <Popup>You are here</Popup>
             </Marker>
         )
     }
 
-    useEffect(() => {
-        setMarker([89,0]);
-        setMarkers([[10, -45], [-20, -30], [-30, 70]]);
-        //SET MARKERS USING API CALL FOR APPOINTMENTS
-        
-    },[])
+    function AppointmentMarkers(){
+        const [appointments, setAppointments] = useState([]);
+
+        useEffect(() => {
+            setAppointments([[10, -45], [-20, -30], [-30, 70]]);
+            //SET MARKERS USING API CALL FOR APPOINTMENTS
+        },[]);
+
+        return appointments.length === 0 ? null : (
+            appointments.map((position, idx) =>
+                <Marker key={`marker-${idx}`} position={position}>
+                    <Popup>APPOINTMENT</Popup>
+                </Marker>
+            )
+        )
+    }
+
+    function AgentMarkers(){
+        const [agents, setAgents] = useState([]);
+
+        useEffect(() => {
+            setAgents([[-50, -15], [-60, -30], [-60, -80]]);
+            //SET MARKERS USING API CALL FOR APPOINTMENTS
+        },[]);
+
+        return agents.length === 0 ? null : (
+            agents.map((position, idx) =>
+                <Marker key={`marker-${idx}`} position={position}>
+                    <Popup>AGENTS</Popup>
+                </Marker>
+            )
+        )
+    }    
     
 
 
     return (
         <div className="Page">
             Map Page
-            <MapContainer center={[lat, lng]} zoom={1} scrollWheelZoom={true}>
+            <MapContainer center={[lat, lng]} zoom={3} scrollWheelZoom={true}>
                 <BasemapLayer name="Streets" />
                 <LocationMarker />
 
+                <AppointmentMarkers />
+                <AgentMarkers />
 
-                <Marker position={marker} />
                 <Marker position={[lat,lng]} />
 
-                {markers.map((position, idx) =>
-                        <Marker key={`marker-${idx}`} position={position}></Marker>
-                )}
-
             </MapContainer>
+
         </div>
     )
 }
