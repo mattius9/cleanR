@@ -2,7 +2,7 @@ import "./ServiceList.css";
 import React from 'react';
 import Service from '../Service/Service';
 
-export default function ServiceList() {
+export default function ServiceList({user, setUser}) {
     return (
         <div className="Component">
             ServiceList

@@ -15,13 +15,13 @@ function App() {
       { user ? 
       <Switch>
         <Route path="/appointments">
-          <AppointmentsPage />
+          <AppointmentsPage user={user} setUser={setUser}/>
         </Route>
         <Route path="/map">
-          <MapPage/>
+          <MapPage user={user} setUser={setUser}/>
         </Route>
         <Route path="/services">
-          <ServicesPage />
+          <ServicesPage user={user} setUser={setUser}/>
         </Route>
       </Switch>
         :        

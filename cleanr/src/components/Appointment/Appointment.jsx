@@ -1,7 +1,7 @@
 import React from 'react';
 import './Appointment.css';
 
-export default function Appointment(props) {
+export default function Appointment() {
     return (
         <div className="card">
             Appointment
