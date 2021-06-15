@@ -1,13 +1,12 @@
 import "./Service.css";
 import React from 'react'
 
-export default function Service() {
+export default function Service({service}) {
     return (
         <div className="card">
-            Service
-            <p>Type:</p>
-            <p>Hourly Price:</p>
-            <p>Minimum Hours:</p>
+            <p>Type: {service.name}</p>
+            <p>Hourly Price: {service.price}</p>
+            <p>Minimum Hours: {service.minimumHours}</p>
         </div>
     )
 }
