@@ -1,4 +1,4 @@
-import { getToken } from './users-service';
+// import { getToken } from './users-service';
 
 const BASE_URL = '/api/agents/services';
 
@@ -17,7 +17,7 @@ export function addOne() {
 function getOptionsGet() {
   return {
     headers: {
-      Authorization: `Bearer ${getToken()}`
+    //   Authorization: `Bearer ${getToken()}`
     }
   };
 }
@@ -27,7 +27,7 @@ function getOptionsPost() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`
+    //   Authorization: `Bearer ${getToken()}`
     }
   };
 }
@@ -37,7 +37,7 @@ function getOptionsPut() {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`
+    //   Authorization: `Bearer ${getToken()}`
     }
   };
 }
