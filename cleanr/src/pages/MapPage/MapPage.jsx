@@ -1,9 +1,10 @@
 import './MapPage.css';
 import React, { useEffect, useState} from 'react';
+import LogOut from '../../components/LogOut/LogOut';
 import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
 import { BasemapLayer} from "react-esri-leaflet";
 
-export default function MapPage() {
+export default function MapPage({ user, setUser}) {
 
     // Lat & LNG used for testing
     const [lat, setLat] = useState(51.505);
@@ -77,6 +78,7 @@ export default function MapPage() {
                 <Marker position={[lat,lng]} />
 
             </MapContainer>
+            <LogOut user={user} setUser={setUser}/>
 
         </div>
     )

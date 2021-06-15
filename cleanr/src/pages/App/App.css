@@ -1,6 +1,8 @@
 .App {
   text-align: center;
-  background: var(--clr-neutral-100);
+  background: url(https://i.imgur.com/zqn0gS5.jpg);
+  background-size: cover;
+  margin: 0 auto;
 }
 
 .App{
