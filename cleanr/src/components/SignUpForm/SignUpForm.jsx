@@ -8,7 +8,7 @@ function useInput({ type /*...*/ }, placeholder, required) {
     let input="";
     //console.log(required === 'required');
     if (placeholder.includes('Card')){
-            input = <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxLength="16" placeholder="xxxxxxxxxxxxxxxx" />
+            input = <input id="ccn" type="tel" value={value} onChange={e => setValue(e.target.value)} inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxLength="16" placeholder="xxxxxxxxxxxxxxxx" />
     }
     else if(required === 'required'){
         input = <input required value={value} placeholder={placeholder} onChange={e => setValue(e.target.value)} type={type} />;
@@ -29,6 +29,59 @@ export default function SignUpForm(props) {
     function handleSubmit(e){
 
     }
+    async function submitSignUp(){
+        let errorEl = document.getElementById('errorMessage')
+        let submitErrorString = ""
+        // this is in case there was an issue with the lat/long during form submission (can be removed)
+        let searchURL="https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="
+        let response = await fetch(`${searchURL}${addressLine1}%20${country}`);
+        response = await response.json();
+        console.log(response) 
+        if (latitude !== response[0].lat){
+            submitErrorString+="latitude"
+            await setLatitude(response[0].lat)
+        }
+        if (longitude !==response[0].lon){
+            submitErrorString+="longitude"
+            await setLongitude(response[0].lon)
+        }
+        errorEl.innerHTML=submitErrorString
+        const signUpObject = {
+            'name':userName,
+            'email': email,
+            'password':password,
+            'location':{
+                'address': addressLine1,
+                'city': city,
+                'region': region,
+                'country': country,
+                'postalCode': postalCode
+            },
+            'latitude':latitude,
+            'longitude': longitude,
+
+
+        }
+
+    // const [addressLine1, setAddressLine1] = useInput({type:"text"}, "1123 Gumdrop Lane", "required")
+    if(addressLine2.length > 0) signUpObject['location']['addressDetails'] = addressLine2
+    if (unitNumber.length > 0) signUpObject['location']['unit'] = unitNumber
+    if(birthday.length > 0) signUpObject['birthday'] = birthday
+    if(creditCard.length > 0) signUpObject['cardNumber']= creditCard
+    if(displayName.length > 0){
+        signUpObject['displayName'] = displayName
+    }
+    else{
+        signUpObject['displayName'] = userName
+    }
+    if(agentCheck || clientCheck) signUpObject['roles']= []
+    if(agentCheck) signUpObject['roles'].push('agent')
+    if(clientCheck) signUpObject['roles'].push('client')
+
+    console.log(signUpObject)
+    }
+
+
     async function signUpViewCheck(num){
         let errorString="";
         let errorEl = document.getElementById('errorMessage')
@@ -75,41 +128,78 @@ export default function SignUpForm(props) {
             changeSignUpView(num)
         }
         else if(num===3){
+            let addressErrorString = "<ul>";
             let validEls = []
            let els= document.getElementById('signUpForm').querySelectorAll("[required]");
-           if(latitude ==="" && longitude === ""){
-               let searchString=addressLine1.replace(" ", "%20")
-               console.log(addressLine1)
-               let searchURL="https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="
-               let response = await fetch(`${searchURL}${searchString}`);
-               response = await response.json();
-               if (response.length === 0){
-                   console.log('hello?')
-                   return errorEl.innerHTML= 'Cannot get coordinates from address!'
-               }
-               else{
-                console.log(response[0].lat)
-                console.log(response[0].lon)
-                return errorEl.innerHTML= ''
-               }
-               console.log(response)
-           }
            console.log(els)
            els.forEach(el=>{el.reportValidity()});
            els.forEach(el=>{validEls.push(el.reportValidity())})
-           let count = validEls.filter(Boolean).length
-           validEls.forEach((valid, index) => valid ? els[index].style.background='red':null)
-           console.log(count)
-           if (els.length === count) {
-            setError("What's your address?")
-            changeSignUpView(num)
+           let countAddressFields = validEls.filter(Boolean).length
+           console.log(countAddressFields)
+           validEls.forEach((valid, index) => {
+              if(!valid){
+               els[index].style.background='red'
+               els[index].style.color='white'
+              }
+              else{
+               els[index].style.background='white'
+               els[index].style.color='black'
+              }
+           })
+           if(addressLine1 === "") addressErrorString += "<li>Missing address </li>";
+           if(city === "") addressErrorString +="<li>Missing City </li>";
+           if(region==="") addressErrorString +="<li>Missing Region</li>"
+           if(country === "") addressErrorString +="<li>Missing Country </li>";
+           if(postalCode==="" || postalCode.length<4)addressErrorString +="<li>Invalid Postal Code</li>";
+           if(latitude ==="" && longitude === ""){
+               let formAddress=addressLine1.replace(" ", "%20")
+               let formCountry=country.replace(" ","%20")
+               console.log(addressLine1)
+               let searchURL="https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="
+               let response = await fetch(`${searchURL}${formAddress}%20${formCountry}`);
+               response = await response.json();
+               if (response.length === 0){
+                   console.log('hello?')
+                   addressErrorString += '<li>Cannot get coordinates, check country and address. </li>';
+                   addressErrorString +="</ul>"
+                   return errorEl.innerHTML= addressErrorString
+               }
+               else if(response.length > 1){
+                addressErrorString += '<li>Cannot get coordinates, check country and address. </li>';
+                addressErrorString +="</ul>"
+                return errorEl.innerHTML= addressErrorString
+
+               }
+               else{
+                await setLatitude(response[0].lat)
+                await setLongitude(response[0].lon)
+                console.log(addressErrorString)
+                console.log(response)
+            }
+        }
+        if (addressErrorString !== "<ul>"){
+            addressErrorString +="</ul>"
+            return errorEl.innerHTML=addressErrorString
         }
         else{
-            setError('Please fill out all the required fields!')
+
+            errorEl.innerHTML= ''
+            changeSignUpView(num)
         }
         }
         else if(num===4){
-            changeSignUpView(num)
+            let optionalErrorString = "<ul>";
+            console.log(creditCard.length)
+            if(creditCard.length!==16) optionalErrorString+="<li>That Credit Card information is invalid</li>"
+            if(creditCard.length ===0) optionalErrorString = "<ul>"
+            if (optionalErrorString === "<ul>"){
+                errorEl.innerHTML=""
+                changeSignUpView(num)
+            }
+            else{
+                optionalErrorString+="</ul>"
+                errorEl.innerHTML=optionalErrorString;
+            }
         }
 
 
@@ -136,6 +226,7 @@ export default function SignUpForm(props) {
     const [unitNumber, setUnitNumber] = useInput({type:"text"}, "2", "unrequired");
     const [addressLine1, setAddressLine1] = useState('');
     const [city, setCity] = useState('');
+    const [region, setRegion] = useState('')
     const [country, setCountry] = useState('');
     const [postalCode, setPostalCode] = useState('');
     const [latitude, setLatitude] = useState('');
@@ -199,6 +290,8 @@ export default function SignUpForm(props) {
         await setCity(response.address.City)
         await setCountry(countryDict[response.address.CountryCode])
         await setPostalCode(`${response.address.Postal} ${response.address.PostalExt}`)
+        await setRegion(response.address.Region)
+        console.log(response.address.Region)
         // await setLatitude(lat)
         // await setLongitude(lng)
         console.log(longitude, latitude);
@@ -207,87 +300,200 @@ export default function SignUpForm(props) {
 
 
     return (
-        <div className="Component">
-            Sign Up
+        <div className="Component signup-page">
             <form id="signUpForm">
             {signUpView===0 ? 
             <div>
-            <label for="username">Usrname:</label>
-            {setUserName} <br />
-            <label for="email">E-mail: </label>
-            {setEmail} <br />
+                <table className="signup-view signup-view0">
+                        <thead>
+                        <th colspan="2">Sign up!</th>
+                        </thead>
+                <tbody>
+                    <tr>
+                        <td><label for="username">Username:</label></td>
+                        <td>{setUserName}</td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">E-mail: </label></td>
+                        <td>{setEmail}</td>
+                    </tr>
+                    <tr>
+                        <td><label for="password"> Password: </label></td>
+                        <td>{setPassword}</td>
+                    </tr>
+                    <tr>
+                        <td><label for="confirm-password"> Confirm: </label></td>
+                        <td>{setConfirmPassword}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            
+            
+            
             {/* <required  id="username" placeholder="Password"></input> */}
-            <label for="password"> Password: </label>
-            {setPassword} <br />
-            <label for="confirm-password"> Confirm: </label>
-            {setConfirmPassword}< br />
-            <input onClick={(e)=>{roleSetter(e)}} value={clientCheck} defaultChecked={clientCheck} type="checkbox" id="client" name="client" />
-
-        <label for="client">Client</label>  
-        <input  onClick={(e)=>{roleSetter(e)}} value={agentCheck} defaultChecked={agentCheck}type="checkbox" id="agent" name="agent" />
-        <label for="agent">Agent</label>
-            <button type="button" onClick={()=>{changeSignUpView(1)}}>Go to next view</button>
+            
+            <div className="role-container"> 
+            <div>
+                <input onClick={(e)=>{roleSetter(e)}} value={clientCheck} defaultChecked={clientCheck} type="checkbox" id="client" name="client" />
+                <label for="client">Client</label>  
+            </div>
+            <div>
+                <input  onClick={(e)=>{roleSetter(e)}} value={agentCheck} defaultChecked={agentCheck}type="checkbox" id="agent" name="agent" />
+                <label for="agent">Agent</label>
+            </div>
+            </div>
+            
+            
+            <div class="signup-button-container">
+                <button type="button" onClick={()=>{signUpViewCheck(1)}}>Go to next view</button>
+                </div>
+        
+            
         </div>
             :
             (signUpView===1 ?
-                <div>
+                <div className="sign-up-map">
                     <MapContainer center={[lat, lng]} zoom={13} scrollWheelZoom={false}>
                         <BasemapLayer name="Streets" />
                         <LocationMarker />
                     </MapContainer>
-                    <button type="button" onClick={()=>{changeSignUpView(0)}}>Go to previous view</button>
-                    <button type="button" onClick={()=>{changeSignUpView(2)}}>Go to next view</button>
+                    <div class="signup-button-container">
+                        <button type="button" onClick={()=>{changeSignUpView(0)}}>Go to previous view</button>
+                        <button type="button" onClick={()=>{changeSignUpView(2)}}>Go to next view</button>
+                        </div>
+                    
 
                 </div>
              :(signUpView ===2 ?
                 <div>
+                    <table class="signup-view sign-upview2">
+                        <thead>
+                        <th colspan="2">Address Information</th>
+                        </thead>
+                        <tbody>
+
+                        <tr>
                     
-                    <label for="addressLine1"> Address : * </label>
-                     <input type="text" required value={addressLine1} onChange={(e)=>setAddressLine1(e.target.value)}></input> <br />
-                     <label for="addressLine2"> Address details: </label>
-                     {setAddressLine2} <br />
-                     <label for="unit"> Unit: </label>
-                     {setUnitNumber} <br />
-                     <label for="city"> City: * </label>
-                     <input type="text" required value={city} onChange={(e)=>setCity(e.target.value)}></input> <br />
-                     <label for="country"> Country: * </label>
-                     <input type="text" required value={country} onChange={(e)=>setCountry(e.target.value)}></input> <br />
-                     <label for="postal_code"> Postal Code: * </label>
-                     <input type="text" required value={postalCode} onChange={(e)=>setPostalCode(e.target.value)}></input> <br />
-                    <button type="button" onClick={()=>{changeSignUpView(1)}}>Go to previous view</button>
-                    <button type="button" onClick={()=>{signUpViewCheck(3)}}>Go to next view</button>
+                            <td><label for="addressLine1"> Address : * </label></td>
+                            <td> <input type="text" required value={addressLine1} onChange={(e)=>setAddressLine1(e.target.value)}></input> <br /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="addressLine2"> Address details: </label></td>
+                            <td>{setAddressLine2} </td>
+                        </tr>
+                        <tr>
+                            <td><label for="unit"> Unit: </label></td>
+                            <td>{setUnitNumber}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="city"> City: * </label></td>
+                            <td><input type="text" required value={city} onChange={(e)=>setCity(e.target.value)}></input></td>
+                        </tr>
+                        <tr>
+                            <td><label for="region"> Province/State: * </label></td>
+                            <td><input type="text" required value={region} onChange={(e)=>setRegion(e.target.value)}></input></td>
+                        </tr>
+                        <tr>
+                            <td><label for="country"> Country: * </label></td>
+                            <td><input type="text" required value={country} onChange={(e)=>setCountry(e.target.value)}></input></td>
+                        </tr>
+                        <tr>
+                            <td><label for="postal_code"> Postal Code: * </label></td>
+                            <td><input type="text" required value={postalCode} onChange={(e)=>setPostalCode(e.target.value)}></input></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     <div class="signup-button-container">
+
+                    <button className="signup-button" type="button" onClick={()=>{changeSignUpView(1)}}>Go to previous view</button>
+                    <button className="signup-button" type="button" onClick={()=>{signUpViewCheck(3)}}>Go to next view</button>
+                     </div>
                     <p>{error}</p>
                 </div>
                 :
              ((signUpView===3 ?
                 <div>
-                <label for="birthday">Birthday: </label>
-                {setBirthday}<br />
-                <label for="ccn">Credit Card: </label>
-                {setCreditCard}<br />
-                <label for="display-name">Display Name</label>
-                {setDisplayName}
-                <p onClick={()=>{changeSignUpView(2)}}>----</p>
+                    <table class="signup-view sign-upview3">
+                        <thead>
+                              <th colspan="2">Optional Information</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><label for="birthday">Birthday: </label></td>
+                                <td>{setBirthday}</td>
+                            </tr>
+                            <tr>
+                                <td><label for="ccn">Credit Card: </label></td>
+                                <td>{setCreditCard}</td>
+                            </tr>
+                            <tr>
+                                <td><label for="display-name">Display Name: </label></td>
+                                <td>{setDisplayName}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                
+                
+                
+                    <div class="signup-button-container">
+
                     <button type="button" onClick={()=>{changeSignUpView(2)}}>Go to previous view</button>
-                    <button type="button" onClick={()=>{changeSignUpView(4)}}>Go to next view</button>
+                    <button type="button" onClick={()=>{signUpViewCheck(4)}}>Go to next view</button>
+                    </div>
+                
+                <p onClick={()=>{changeSignUpView(2)}}>----</p>
+
             </div>
               :
               <div>
-                  <ul>
-                      <li>YSS</li>
-                      <ul>
-                          <li>YESS</li>
-                      </ul>
-                  </ul>
-                    <li>User: {userName}</li>
-                    {displayName ? <li> Display: {displayName}</li>: null}
-                    <li>Email: {email}</li>
-                    <li>Address: {addressLine1}</li>
-                    {birthday ? <li> Birthday: {birthday}</li>: null}
-                    {creditCard ? <li> Credit Card: {creditCard}</li>: null}
+                  
+                      <table className="signup-summary">
+                          <thead>
+                              <th colspan="2">Summary</th>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Username:</td>
+                                  <td>{userName}</td> 
+                              </tr>
+                              <tr>
+                                  <td>Your user role(s):</td>
+                                  <td>{(agentCheck &&clientCheck)? "Agent, Client":(agentCheck ? "Agent":(clientCheck ? "Client":null))}</td> 
+                              </tr>
+                              <tr>
+                                  <td>Address:</td>
+                                  <td>{unitNumber ? `${unitNumber}-`:null}{addressLine1}<br/> {region}, {country}<br/> {postalCode} </td>
+                              </tr>
+                              {addressLine2 ? <tr><td>Details</td> <td>{addressLine2}</td> </tr>: null}
+                              <tr>
+                                  <td>Email:</td>
+                                  <td>{email}</td>
+                              </tr>
+                              {displayName ? <tr><td>Display Name:</td> <td>{displayName}</td> </tr>: <tr><td>Display Name:</td> <td>{userName}</td> </tr>}
+                              {creditCard ? <tr><td>Credit Card(last 4 digits):</td> <td>*{creditCard.substr(creditCard.length-4)}</td> </tr>: null}
+
+                          </tbody>
+                      </table>
                     
-                    <button type="button" onClick={()=>{changeSignUpView(3)}}>Go to previous view</button>
-                    <input onClick={(e)=>{handleSubmit(e)}} type="submit" value="Enter!" />
+                    <button className="last-page-button" type="button" onClick={()=>{changeSignUpView(3)}}>Go to previous view</button>
+                    <button type="button" onClick={()=>{submitSignUp()}} >Submit</button>
+                    <input className="signup-submit" onClick={(e)=>{handleSubmit(e)}} type="submit" value="Submit!" />
                 </div>
                ))))}
                <div id="errorMessage"></div>
@@ -297,8 +503,6 @@ export default function SignUpForm(props) {
 
                 
             </form>
-            <button onClick={()=>{testThis()}}>stateCheck</button>
-            <button onClick={()=>{printPasswords()}}>passCheck</button>
         </div>
     )
 }

@@ -61,21 +61,43 @@ const userSchema = new Schema({
     required: false
   },
   roles: [roleSchema],
-  address: {
-    type: String,
-    trim: true,
-    minLength: 5,
-    required: true
+  location: {
+    address:{
+      type: String,
+      required: true
+    },
+    addressDetails:{
+      type: String,
+      required: false
+    },
+    unit:{
+      type: String,
+      required: false
+    },
+    city:{
+      type: String,
+      required: true
+    },
+    region:{
+      type: String,
+      required: true
+    },
+    country:{
+      type: String,
+      required: true
+    },
+    postalCode:{
+      type: String,
+      required: true
+    }
   },
   latitude: {
     type: Number,
     trim: true,
-    minLength: 3,
     required: true
   },
   longitude: {
     type: Number,
-    minLength: 3,
     required: true
   },
   reviews:[reviewSchema],
