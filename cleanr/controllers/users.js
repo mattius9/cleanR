@@ -10,18 +10,14 @@ module.exports = {
 };
 
 async function create(req, res) {
-  console.log(req.body)
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS)
-    const user = await User.create({name: req.body.name, email:req.body.email, password:hashedPassword,});
-
-    // creating a jwt: 
-    // the first parameter specifies what we want to put into the token (in this case, our user document)
-    // the second parameter is a "secret" code. This lets our server verify if an incoming jwt is legit or not.
-    const token = jwt.sign({ user }, process.env.SECRET,{ expiresIn: '24h' });
-    res.json(token); // send it to the frontend
+    console.log('WE GOT HERE!!!!!!!')
+    console.log(req.body)
+    const user = await User.create(req.body);
+    const token = createJWT(user);
+    res.json(token);
+    console.log('success')
   } catch (err) {
-    console.log("user creation error", err)
     res.status(400).json(err);
   }
 }
@@ -38,4 +34,13 @@ async function login(req, res) {
   } catch {
     res.status(400).json('Bad Credentials');
   }
+}
+
+function createJWT(user) {
+  return jwt.sign(
+    // data payload
+    { user },
+    process.env.SECRET,
+    { expiresIn: '24h' }
+  );
 }

@@ -2,6 +2,7 @@ import './SignUpForm.css';
 import React, {useState, useEffect} from 'react'
 import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
 import { BasemapLayer} from "react-esri-leaflet";
+import {signUp} from '../../utilities/users-service'
 
 function useInput({ type /*...*/ }, placeholder, required) {
     const [value, setValue] = useState("");
@@ -38,11 +39,11 @@ export default function SignUpForm(props) {
         response = await response.json();
         console.log(response) 
         if (latitude !== response[0].lat){
-            submitErrorString+="latitude"
+            submitErrorString+="Map Error SU-1: Contact Support"
             await setLatitude(response[0].lat)
         }
         if (longitude !==response[0].lon){
-            submitErrorString+="longitude"
+            submitErrorString+="Map Error SU-2: Contact Support!"
             await setLongitude(response[0].lon)
         }
         errorEl.innerHTML=submitErrorString
@@ -59,8 +60,6 @@ export default function SignUpForm(props) {
             },
             'latitude':latitude,
             'longitude': longitude,
-
-
         }
 
     // const [addressLine1, setAddressLine1] = useInput({type:"text"}, "1123 Gumdrop Lane", "required")
@@ -75,10 +74,13 @@ export default function SignUpForm(props) {
         signUpObject['displayName'] = userName
     }
     if(agentCheck || clientCheck) signUpObject['roles']= []
-    if(agentCheck) signUpObject['roles'].push('agent')
-    if(clientCheck) signUpObject['roles'].push('client')
+    if(agentCheck) signUpObject['roles'].push({'role':'agent'})
+    if(clientCheck) signUpObject['roles'].push({'role':'client'})
 
     console.log(signUpObject)
+    const user= await signUp(signUpObject)
+    props.setUser(user)
+    console.log(user.name)
     }
 
 
