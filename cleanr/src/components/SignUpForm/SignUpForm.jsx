@@ -29,7 +29,7 @@ export default function SignUpForm(props) {
     function handleSubmit(e){
 
     }
-    function signUpViewCheck(num){
+    async function signUpViewCheck(num){
         let errorString="";
         let errorEl = document.getElementById('errorMessage')
         
@@ -77,7 +77,23 @@ export default function SignUpForm(props) {
         else if(num===3){
             let validEls = []
            let els= document.getElementById('signUpForm').querySelectorAll("[required]");
-           
+           if(latitude ==="" && longitude === ""){
+               let searchString=addressLine1.replace(" ", "%20")
+               console.log(addressLine1)
+               let searchURL="https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="
+               let response = await fetch(`${searchURL}${searchString}`);
+               response = await response.json();
+               if (response.length === 0){
+                   console.log('hello?')
+                   return errorEl.innerHTML= 'Cannot get coordinates from address!'
+               }
+               else{
+                console.log(response[0].lat)
+                console.log(response[0].lon)
+                return errorEl.innerHTML= ''
+               }
+               console.log(response)
+           }
            console.log(els)
            els.forEach(el=>{el.reportValidity()});
            els.forEach(el=>{validEls.push(el.reportValidity())})
@@ -115,20 +131,25 @@ export default function SignUpForm(props) {
     const [password, setPassword] = useInput({type: "password"}, "Password", "required");
     const [confirmPassword, setConfirmPassword] = useInput({type: "password"}, "Confirm Password", "required");
 
-    const [addressLine1, setAddressLine1] = useInput({type:"text"}, "1123 Gumdrop Lane", "required")
+    // const [addressLine1, setAddressLine1] = useInput({type:"text"}, "1123 Gumdrop Lane", "required")
     const [addressLine2, setAddressLine2] = useInput({type:"text"}, "basement on the right ", "unrequired")
     const [unitNumber, setUnitNumber] = useInput({type:"text"}, "2", "unrequired");
-    const [city, setCity] = useInput({type:"text"}, "Toronto", "required");
-    const [country, setCountry] = useInput({type:"text"}, "Canada", "required");
-    const [postalCode, setPostalCode] = useState('')
+    const [addressLine1, setAddressLine1] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
     const [birthday, setBirthday] = useInput({type:"date"}, "birthday","unrequired");
     const [creditCard, setCreditCard] = useInput({type:'number'},'Credit Card', 'unrequired');
     const [displayName, setDisplayName] = useInput({type:"text"}, "Display Name", "unrequired");
     const [agentCheck, setAgentCheck] = useState(false);
     const [clientCheck, setClientCheck] = useState(false);
-
-
+    const countryNames = ["Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas (the)", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia (Plurinational State of)", "Bonaire, Sint Eustatius and Saba", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory (the)", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Cayman Islands (the)", "Central African Republic (the)", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands (the)", "Colombia", "Comoros (the)", "Congo (the Democratic Republic of the)", "Congo (the)", "Cook Islands (the)", "Costa Rica", "Croatia", "Cuba", "Curaçao", "Cyprus", "Czechia", "Côte d'Ivoire", "Denmark", "Djibouti", "Dominica", "Dominican Republic (the)", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Falkland Islands (the) [Malvinas]", "Faroe Islands (the)", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories (the)", "Gabon", "Gambia (the)", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See (the)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran (Islamic Republic of)", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea (the Democratic People's Republic of)", "Korea (the Republic of)", "Kuwait", "Kyrgyzstan", "Lao People's Democratic Republic (the)", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands (the)", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia (Federated States of)", "Moldova (the Republic of)", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands (the)", "New Caledonia", "New Zealand", "Nicaragua", "Niger (the)", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands (the)", "Norway", "Oman", "Pakistan", "Palau", "Palestine, State of", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines (the)", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Republic of North Macedonia", "Romania", "Russian Federation (the)", "Rwanda", "Réunion", "Saint Barthélemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin (French part)", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten (Dutch part)", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan", "Spain", "Sri Lanka", "Sudan (the)", "Suriname", "Svalbard and Jan Mayen", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan (Province of China)", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands (the)", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates (the)", "United Kingdom of Great Britain and Northern Ireland (the)", "United States Minor Outlying Islands (the)", "United States of America (the)", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela (Bolivarian Republic of)", "Viet Nam", "Virgin Islands (British)", "Virgin Islands (U.S.)", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe", "Åland Islands"]
+    const countryCode = ["AFG", "ALB", "DZA", "ASM", "AND", "AGO", "AIA", "ATA", "ATG", "ARG", "ARM", "ABW", "AUS", "AUT", "AZE", "BHS", "BHR", "BGD", "BRB", "BLR", "BEL", "BLZ", "BEN", "BMU", "BTN", "BOL", "BES", "BIH", "BWA", "BVT", "BRA", "IOT", "BRN", "BGR", "BFA", "BDI", "CPV", "KHM", "CMR", "CAN", "CYM", "CAF", "TCD", "CHL", "CHN", "CXR", "CCK", "COL", "COM", "COD", "COG", "COK", "CRI", "HRV", "CUB", "CUW", "CYP", "CZE", "CIV", "DNK", "DJI", "DMA", "DOM", "ECU", "EGY", "SLV", "GNQ", "ERI", "EST", "SWZ", "ETH", "FLK", "FRO", "FJI", "FIN", "FRA", "GUF", "PYF", "ATF", "GAB", "GMB", "GEO", "DEU", "GHA", "GIB", "GRC", "GRL", "GRD", "GLP", "GUM", "GTM", "GGY", "GIN", "GNB", "GUY", "HTI", "HMD", "VAT", "HND", "HKG", "HUN", "ISL", "IND", "IDN", "IRN", "IRQ", "IRL", "IMN", "ISR", "ITA", "JAM", "JPN", "JEY", "JOR", "KAZ", "KEN", "KIR", "PRK", "KOR", "KWT", "KGZ", "LAO", "LVA", "LBN", "LSO", "LBR", "LBY", "LIE", "LTU", "LUX", "MAC", "MDG", "MWI", "MYS", "MDV", "MLI", "MLT", "MHL", "MTQ", "MRT", "MUS", "MYT", "MEX", "FSM", "MDA", "MCO", "MNG", "MNE", "MSR", "MAR", "MOZ", "MMR", "NAM", "NRU", "NPL", "NLD", "NCL", "NZL", "NIC", "NER", "NGA", "NIU", "NFK", "MNP", "NOR", "OMN", "PAK", "PLW", "PSE", "PAN", "PNG", "PRY", "PER", "PHL", "PCN", "POL", "PRT", "PRI", "QAT", "MKD", "ROU", "RUS", "RWA", "REU", "BLM", "SHN", "KNA", "LCA", "MAF", "SPM", "VCT", "WSM", "SMR", "STP", "SAU", "SEN", "SRB", "SYC", "SLE", "SGP", "SXM", "SVK", "SVN", "SLB", "SOM", "ZAF", "SGS", "SSD", "ESP", "LKA", "SDN", "SUR", "SJM", "SWE", "CHE", "SYR", "TWN", "TJK", "TZA", "THA", "TLS", "TGO", "TKL", "TON", "TTO", "TUN", "TUR", "TKM", "TCA", "TUV", "UGA", "UKR", "ARE", "GBR", "UMI", "USA", "URY", "UZB", "VUT", "VEN", "VNM", "VGB", "VIR", "WLF", "ESH", "YEM", "ZMB", "ZWE", "ALA"]
+    const countryDict ={};
+    countryCode.forEach((code,index)=>countryDict[code]=countryNames[index])
     const [error, setError] = useState('')
 
 
@@ -170,10 +191,17 @@ export default function SignUpForm(props) {
     async function addressFetch(lat,lng){
         let response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=PointAddress&location=${lng}%2C${lat}`);
         response = await response.json();
+        console.log(response)
         console.log(response.address);
         console.log(response.address.Address);
-        // console.log(addressLine1);
-        // console.log(setAddressLine1);
+        // addressLine1=response.address.Address
+        await setAddressLine1(response.address.Address)
+        await setCity(response.address.City)
+        await setCountry(countryDict[response.address.CountryCode])
+        await setPostalCode(`${response.address.Postal} ${response.address.PostalExt}`)
+        // await setLatitude(lat)
+        // await setLongitude(lng)
+        console.log(longitude, latitude);
         // setAdressLine1(response.address.Address);
     }
 
@@ -188,7 +216,7 @@ export default function SignUpForm(props) {
             {setUserName} <br />
             <label for="email">E-mail: </label>
             {setEmail} <br />
-            {/* <input id="username" placeholder="Password"></input> */}
+            {/* <required  id="username" placeholder="Password"></input> */}
             <label for="password"> Password: </label>
             {setPassword} <br />
             <label for="confirm-password"> Confirm: </label>
@@ -198,7 +226,7 @@ export default function SignUpForm(props) {
         <label for="client">Client</label>  
         <input  onClick={(e)=>{roleSetter(e)}} value={agentCheck} defaultChecked={agentCheck}type="checkbox" id="agent" name="agent" />
         <label for="agent">Agent</label>
-            <button type="button" onClick={()=>{signUpViewCheck(1)}}>Go to next view</button>
+            <button type="button" onClick={()=>{changeSignUpView(1)}}>Go to next view</button>
         </div>
             :
             (signUpView===1 ?
@@ -215,19 +243,20 @@ export default function SignUpForm(props) {
                 <div>
                     
                     <label for="addressLine1"> Address : * </label>
-                     {setAddressLine1} <br />
+                     <input type="text" required value={addressLine1} onChange={(e)=>setAddressLine1(e.target.value)}></input> <br />
                      <label for="addressLine2"> Address details: </label>
                      {setAddressLine2} <br />
                      <label for="unit"> Unit: </label>
                      {setUnitNumber} <br />
                      <label for="city"> City: * </label>
-                     {setCity} <br />
+                     <input type="text" required value={city} onChange={(e)=>setCity(e.target.value)}></input> <br />
                      <label for="country"> Country: * </label>
-                     {setCountry} <br />
+                     <input type="text" required value={country} onChange={(e)=>setCountry(e.target.value)}></input> <br />
                      <label for="postal_code"> Postal Code: * </label>
-                     <input />
+                     <input type="text" required value={postalCode} onChange={(e)=>setPostalCode(e.target.value)}></input> <br />
                     <button type="button" onClick={()=>{changeSignUpView(1)}}>Go to previous view</button>
                     <button type="button" onClick={()=>{signUpViewCheck(3)}}>Go to next view</button>
+                    <p>{error}</p>
                 </div>
                 :
              ((signUpView===3 ?
