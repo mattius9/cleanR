@@ -5,9 +5,10 @@ import AuthPage from '../AuthPage/AuthPage';
 import AppointmentsPage from '../AppointmentsPage/AppointmentsPage';
 import MapPage from '../MapPage/MapPage';
 import ServicesPage from '../ServicesPage/ServicesPage';
+import { getUser } from '../../utilities/users-service';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(getUser());
 
   return (
     <div className="App">
