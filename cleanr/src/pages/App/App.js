@@ -6,6 +6,7 @@ import AppointmentsPage from '../AppointmentsPage/AppointmentsPage';
 import MapPage from '../MapPage/MapPage';
 import ServicesPage from '../ServicesPage/ServicesPage';
 import { getUser } from '../../utilities/users-service';
+import PaymentForm from '../../components/PaymentForm/PaymentForm';
 
 function App() {
   function getRole(role){
@@ -69,6 +70,10 @@ function App() {
             |
         <Link to="/">Home</Link>
       </nav>
+      <div>
+
+      <PaymentForm />
+      </div>
       <button onClick={()=>{setUser('Doug')}}>Doug</button>
       <button onClick={()=>{setUser(null)}}>Null</button>
     </div>

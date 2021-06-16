@@ -58,3 +58,6 @@
 .card:focus-within {
     transform: scale(1.05);
 }
+.blue-button>:first-child{
+  min-width: 30vw
+}
