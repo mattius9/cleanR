@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use('/api/users', require('./routes/api/users'));
 // app.use(require('./config/auth'));
 app.use('/api/services', require('./routes/api/agent/services'));
+app.use('/api/map', require('./routes/api/map'));
 
 
 // Catch all route

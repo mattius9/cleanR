@@ -4,11 +4,14 @@ import LogOut from '../../components/LogOut/LogOut';
 import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
 import { BasemapLayer} from "react-esri-leaflet";
 
-export default function MapPage({ user, setUser}) {
+import * as mapsAPI from '../../utilities/map-api';
+
+export default function MapPage({ currentRole, user, setUser}) {
 
     // Lat & LNG used for testing
     const [lat, setLat] = useState(51.505);
     const [lng, setLng] = useState(-0.09);
+    console.log(currentRole);
 
 
     function LocationMarker() {
@@ -33,13 +36,28 @@ export default function MapPage({ user, setUser}) {
         const [appointments, setAppointments] = useState([]);
 
         useEffect(() => {
-            setAppointments([[10, -45], [-20, -30], [-30, 70]]);
+
+            async function fetchAppointments(){
+                try {
+                    console.log('REACHED BEFORE FETCH');
+                    // Using this route in case of separation of services from user in model
+                    const data = await mapsAPI.getAppointments(user._id);
+                    console.log('REACHED BEYOND FETCH');
+                    console.log(data);
+                    if(data) setAppointments(data);
+                } catch(err){
+                    console.log(JSON.parse(err));
+                }
+            }
+            fetchAppointments();
+
+            // setAppointments([[10, -45], [-20, -30], [-30, 70]]);
             //SET MARKERS USING API CALL FOR APPOINTMENTS
         },[]);
 
         return appointments.length === 0 ? null : (
             appointments.map((position, idx) =>
-                <Marker key={`marker-${idx}`} position={position}>
+                <Marker key={`marker-${idx}`} position={[0,0]/*appointment.latitude, appointment.longitude */}>
                     <Popup>APPOINTMENT</Popup>
                 </Marker>
             )
@@ -50,14 +68,26 @@ export default function MapPage({ user, setUser}) {
         const [agents, setAgents] = useState([]);
 
         useEffect(() => {
-            setAgents([[-50, -15], [-60, -30], [-60, -80]]);
-            //SET MARKERS USING API CALL FOR APPOINTMENTS
+
+            async function fetchAgents(){
+                try {
+                    // Using this route in case of separation of services from user in model
+                    const data = await mapsAPI.getAgents();
+                    console.log(data);
+                    if(data) setAgents(data);
+                } catch(err){
+                    console.log(JSON.parse(err));
+                }
+            }
+            fetchAgents();
+
+            // setAgents([[-50, -15], [-60, -30], [-60, -80]]);
         },[]);
 
         return agents.length === 0 ? null : (
-            agents.map((position, idx) =>
-                <Marker key={`marker-${idx}`} position={position}>
-                    <Popup>AGENTS</Popup>
+            agents.map((agent, idx) =>
+                <Marker key={`marker-${idx}`} position={[agent.latitude, agent.longitude]}>
+                    <Popup>AGENT: {agent.name} ID: {agent._id}</Popup>
                 </Marker>
             )
         )
@@ -68,13 +98,14 @@ export default function MapPage({ user, setUser}) {
     return (
         <div className="Page">
             Map Page
-            <MapContainer center={[lat, lng]} zoom={3} scrollWheelZoom={true}>
+            <MapContainer center={[lat, lng]} zoom={10} scrollWheelZoom={true}>
                 <BasemapLayer name="Streets" />
                 <LocationMarker />
 
-                <AppointmentMarkers />
-                <AgentMarkers />
+                {currentRole.role == "client" ? <AppointmentMarkers /> : null}
 
+                {currentRole.role == "agent" ? <AgentMarkers /> : null}
+                
                 <Marker position={[lat,lng]} />
 
             </MapContainer>

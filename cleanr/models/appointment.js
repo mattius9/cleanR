@@ -10,7 +10,7 @@ const appointmentSchema = new Schema({
   status: {type: String, enum:['pending', 'confirmed', 'cancelled']},
   clientName:{type: String, required: true},
   clientId:{type: String, required: true},
-  agentName:{type: String, required: true},
+  agentName:{type: String, required: true}, 
   agentId:{type: String, required: true},
 }, {
   timestamps: true
