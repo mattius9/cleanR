@@ -7,10 +7,10 @@ export function getAgents() {
     return fetch(`${BASE_URL}/agents`, options).then(res => res.json());
 }
 
-// export function addService(userId,data) {
-//     const options = getOptionsPut();
-//     return fetch(`${BASE_URL}/addService`, options).then(res => res.json());
-// }
+export function getAppointments() {
+    const options = getOptionsGet();
+    return fetch(`${BASE_URL}/appointments`, options).then(res => res.json());
+}
 
 // export function getInProximity(){
 //   const options = getOptionsGet();

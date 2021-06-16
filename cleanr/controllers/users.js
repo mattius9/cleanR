@@ -45,7 +45,12 @@ async function login(req, res) {
 
 async function getAgents(req,res){
   try{
-    const agents = await User.find({ roles : { "$in" : [{role: "agent"}]}});
+    console.log('GET AGENTS SERVER SIDE');
+    const agents = await User.find({
+      roles:{
+        $elemMatch: {role: "agent"}
+      }
+    })
     console.log(agents);
     res.status(200).json(agents);
   } catch(err){

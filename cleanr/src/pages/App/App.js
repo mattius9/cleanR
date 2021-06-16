@@ -9,7 +9,7 @@ import { getUser } from '../../utilities/users-service';
 import PaymentForm from '../../components/PaymentForm/PaymentForm';
 
 function App() {
-  function getRole(role){
+  function getRole(){
     if (user === null) return null
     if (user.roles){
       if (user.roles.length === 1){
@@ -52,7 +52,7 @@ function App() {
           <AppointmentsPage user={user} setUser={setUser}/>
         </Route>
         <Route path="/map">
-          <MapPage user={user} setUser={setUser}/>
+          <MapPage currentRole={currentRole} user={user} setUser={setUser}/>
         </Route>
         <Route path="/services">
           <ServicesPage user={user} setUser={setUser}/>
