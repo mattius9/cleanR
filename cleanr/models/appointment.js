@@ -8,10 +8,8 @@ const appointmentSchema = new Schema({
   startTime:{type:Date, required: true},
   endTime: {type: Date, required: true},
   status: {type: String, enum:['pending', 'confirmed', 'cancelled']},
-  clientName:{type: String, required: true},
-  clientId:{type: String, required: true},
-  agentName:{type: String, required: true},
-  agentId:{type: String, required: true},
+  client:{type: Schema.Types.ObjectId, ref:'User', required: true},
+  agent:{type: Schema.Types.ObjectId, ref:'User', required: true},
 }, {
   timestamps: true
 });
