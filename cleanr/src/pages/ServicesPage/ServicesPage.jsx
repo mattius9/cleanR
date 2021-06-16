@@ -5,10 +5,15 @@ import LogOut from '../../components/LogOut/LogOut';
 
 import * as servicesAPI from '../../utilities/services-api';
 
-export default function ServicesPage({ user, setUser}) {
+export default function ServicesPage({ currentRole, user, setUser}) {
     // State
     const [services, setServices] = useState([]);
-    console.log(user._id)
+    let agentId;
+    if(currentRole == "agent") agentId = user._id;
+    // {currentRole == "agent" ? agentId=user._id : null}
+    
+    console.log(`UserID`,user._id);
+    console.log(`AgentID`, agentId);
     // Hooks
     useEffect( function(){
         async function fetchServices(){
@@ -25,7 +30,6 @@ export default function ServicesPage({ user, setUser}) {
         }
         fetchServices();
     }, []);
-
 
     return (
         <div className="Page">

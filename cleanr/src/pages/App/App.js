@@ -9,7 +9,7 @@ import { getUser } from '../../utilities/users-service';
 import PaymentForm from '../../components/PaymentForm/PaymentForm';
 
 function App() {
-  function getRole(role){
+  function getRole(){
     if (user === null) return null
     if (user.roles){
       if (user.roles.length === 1){
@@ -27,6 +27,7 @@ function App() {
   const [user, setUser] = useState(getUser());
   const [toggleView, setToggleView] = useState(false)
   const [currentRole, setCurrentRole] = useState({role:getRole()})
+  const [agent, setAgent] = useState(null); // USED TO SET THE AGENT ID OF THE SERVICES PAGE CLIENT IS
 
 
   // const [currentRole, setCurrentRole] =useState(null);
@@ -52,10 +53,10 @@ function App() {
           <AppointmentsPage user={user} setUser={setUser}/>
         </Route>
         <Route path="/map">
-          <MapPage user={user} setUser={setUser}/>
+          <MapPage currentRole={currentRole} user={user} setUser={setUser}/>
         </Route>
         <Route path="/services">
-          <ServicesPage user={user} setUser={setUser}/>
+          <ServicesPage currentRole = {currentRole} agent = {agent} user={user} setUser={setUser}/>
         </Route>
       </Switch>
         :        
