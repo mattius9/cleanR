@@ -35,14 +35,21 @@ export default function SignUpForm(props) {
         let submitErrorString = ""
         // this is in case there was an issue with the lat/long during form submission (can be removed)
         let searchURL="https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="
-        let response = await fetch(`${searchURL}${addressLine1}%20${country}`);
+        let response = await fetch(`${searchURL}${addressLine1}%20${country}%20${city}`);
         response = await response.json();
-        console.log(response) 
-        if (latitude !== response[0].lat){
+        console.log(response)
+        let responseLat = Math.floor(parseFloat(response[0].lat)*1000)/1000;
+        let responseLng = Math.floor(parseFloat(response[0].lon)*1000)/1000;
+
+        console.log(`${responseLat} vs ${latitude}`);
+        console.log(`${responseLng} vs ${longitude}`);
+        
+
+        if (responseLat-.001 < parseFloat(latitude) && parseFloat(latitude) < responseLat+.001){
             submitErrorString+="Map Error SU-1: Contact Support"
             await setLatitude(response[0].lat)
         }
-        if (longitude !==response[0].lon){
+        if (responseLng-.001 < parseFloat(longitude) && parseFloat(longitude) < responseLng+.001){
             submitErrorString+="Map Error SU-2: Contact Support!"
             await setLongitude(response[0].lon)
         }
@@ -155,11 +162,13 @@ export default function SignUpForm(props) {
            if(postalCode==="" || postalCode.length<4)addressErrorString +="<li>Invalid Postal Code</li>";
            if(latitude ==="" && longitude === ""){
                let formAddress=addressLine1.replace(" ", "%20")
+               let formCity=city.replace(" ","%20")
                let formCountry=country.replace(" ","%20")
                console.log(addressLine1)
                let searchURL="https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="
-               let response = await fetch(`${searchURL}${formAddress}%20${formCountry}`);
+               let response = await fetch(`${searchURL}${formAddress}%20${formCity}%20${formCountry}`);
                response = await response.json();
+               console.log(response);
                if (response.length === 0){
                    console.log('hello?')
                    addressErrorString += '<li>Cannot get coordinates, check country and address. </li>';
@@ -176,7 +185,6 @@ export default function SignUpForm(props) {
                 await setLatitude(response[0].lat)
                 await setLongitude(response[0].lon)
                 console.log(addressErrorString)
-                console.log(response)
             }
         }
         if (addressErrorString !== "<ul>"){
@@ -294,15 +302,15 @@ export default function SignUpForm(props) {
         await setPostalCode(`${response.address.Postal} ${response.address.PostalExt}`)
         await setRegion(response.address.Region)
         console.log(response.address.Region)
-        // await setLatitude(lat)
-        // await setLongitude(lng)
+        await setLatitude(lat)
+        await setLongitude(lng)
         console.log(longitude, latitude);
         // setAdressLine1(response.address.Address);
     }
 
 
     return (
-        <div className="Component signup-page">
+        <div className="Component signup-page delta">
             <form id="signUpForm">
             {signUpView===0 ? 
             <div>
@@ -472,7 +480,7 @@ export default function SignUpForm(props) {
                           <tbody>
                               <tr>
                                   <td>Username:</td>
-                                  <td>{userName}</td> 
+                                  <td>{userName}||{latitude}||{longitude}</td> 
                               </tr>
                               <tr>
                                   <td>Your user role(s):</td>

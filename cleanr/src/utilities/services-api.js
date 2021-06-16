@@ -1,6 +1,6 @@
 // import { getToken } from './users-service';
 
-const BASE_URL = '/api/agents/services';
+const BASE_URL = '/api/services';
 
 export function getAll() {
     const options = getOptionsGet();
@@ -10,6 +10,11 @@ export function getAll() {
 export function addOne() {
     const options = getOptionsPut();
     return fetch(`${BASE_URL}/create`, options).then(res => res.json());
+}
+
+export function getInProximity(){
+  const options = getOptionsGet();
+  return fetch(`${BASE_URL}/`)
 }
 
 // Options Helper Functions
