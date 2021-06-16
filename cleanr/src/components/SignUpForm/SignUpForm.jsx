@@ -46,11 +46,15 @@ export default function SignUpForm(props) {
         
 
         if (responseLat-.001 < parseFloat(latitude) && parseFloat(latitude) < responseLat+.001){
-            submitErrorString+="Map Error SU-1: Contact Support"
+            submitErrorString+="Successful Latitude!"
+        }
+        else{
             await setLatitude(response[0].lat)
         }
         if (responseLng-.001 < parseFloat(longitude) && parseFloat(longitude) < responseLng+.001){
-            submitErrorString+="Map Error SU-2: Contact Support!"
+            submitErrorString+="Successful Longitude!"
+        }
+        else{
             await setLongitude(response[0].lon)
         }
         errorEl.innerHTML=submitErrorString
