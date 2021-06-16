@@ -2,6 +2,8 @@ import "./ServiceList.css";
 import React, {useState} from 'react';
 import Service from '../Service/Service';
 
+import * as servicesAPI from '../../utilities/services-api';
+
 export default function ServiceList({services,setServices}) {
     // State
     const [name, setName] = useInput({type: "text"}, "Service Name");
@@ -9,13 +11,14 @@ export default function ServiceList({services,setServices}) {
 
     const [minHours, setMinHours] = useState(3);
 
-    
+    console.log(`Services on ServiceList ${services}`)
     let serviceList = null;
-
+    console.log(`Services: ${Object.keys(services)}`);
     if (services){
+        // serviceList = services.map(service => console.log(service))
         serviceList = services.map(service =>
             <Service 
-            key={service._id}
+            // key={service._id}
             service = {service}
             />
         );
@@ -31,13 +34,19 @@ export default function ServiceList({services,setServices}) {
     }
 
     function addService(){
-        // CONTINUE
+        // useEffect(function(){
+        //     async function add(){
+        //         const data = await servicesAPI.getAll();
+        //         setServices(data);
+        //     }
+        //     fetchServices();
+        // }, []);
     }
 
     return (
         <div className="Component">
-            {serviceList ? <p>No Services Yet</p> : {serviceList}}
-
+            {serviceList ? <>{serviceList}</>:<p>No Services Yet</p>}
+            {/* {services ? <>{services}</> : <h1>service object no good</h1>} */}
             ADD SERVICE
 
             <table className="add-service-form">

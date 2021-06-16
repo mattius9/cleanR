@@ -8,12 +8,20 @@ import * as servicesAPI from '../../utilities/services-api';
 export default function ServicesPage({ user, setUser}) {
     // State
     const [services, setServices] = useState([]);
-
+    console.log(user._id)
     // Hooks
-    useEffect(function(){
+    useEffect( function(){
         async function fetchServices(){
-            const data = await servicesAPI.getAll();
-            setServices(data);
+            try {
+                // Using this route in case of separation of services from user in model
+                const data = await servicesAPI.getMyServices(user._id);
+                console.log('REACHED BEYOND FETCH');
+                console.log(data);
+                if(data) setServices(data);
+                console.log(`Service Page ${services}`);
+            } catch(err){
+                console.log(err.message);
+            }
         }
         fetchServices();
     }, []);
