@@ -6,7 +6,8 @@ const SALT_ROUNDS = 6; // tell bcrypt how many times to randomize the generation
 
 module.exports = {
   create,
-  login
+  login,
+  getAgents,
 };
 
 async function create(req, res) {
@@ -40,6 +41,18 @@ async function login(req, res) {
   }
 }
 
+// MAP RELATED FUNCTIONS
+
+async function getAgents(req,res){
+  try{
+    const agents = await User.find({ roles : { "$in" : [{role: "agent"}]}});
+    console.log(agents);
+    res.status(200).json(agents);
+  } catch(err){
+    res.status(400).json(err);
+  }
+  
+}
 function createJWT(user) {
   return jwt.sign(
     // data payload

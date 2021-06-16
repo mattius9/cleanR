@@ -4,6 +4,8 @@ import LogOut from '../../components/LogOut/LogOut';
 import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
 import { BasemapLayer} from "react-esri-leaflet";
 
+import * as servicesAPI from '../../utilities/map-api';
+
 export default function MapPage({ user, setUser}) {
 
     // Lat & LNG used for testing
@@ -50,14 +52,30 @@ export default function MapPage({ user, setUser}) {
         const [agents, setAgents] = useState([]);
 
         useEffect(() => {
-            setAgents([[-50, -15], [-60, -30], [-60, -80]]);
+
+            async function fetchAgents(){
+                try {
+                    console.log('REACHED BEFORE FETCH');
+                    // Using this route in case of separation of services from user in model
+                    const data = await servicesAPI.getAgents();
+                    console.log('REACHED BEYOND FETCH');
+                    console.log(data);
+                    if(data) setAgents(data);
+                    console.log(`Map Page Agents ${agents}`);
+                } catch(err){
+                    console.log(JSON.parse(err));
+                }
+            }
+            fetchAgents();
+
+            // setAgents([[-50, -15], [-60, -30], [-60, -80]]);
             //SET MARKERS USING API CALL FOR APPOINTMENTS
         },[]);
 
         return agents.length === 0 ? null : (
-            agents.map((position, idx) =>
-                <Marker key={`marker-${idx}`} position={position}>
-                    <Popup>AGENTS</Popup>
+            agents.map((agent, idx) =>
+                <Marker key={`marker-${idx}`} position={[agent.latitude, agent.longitude]}>
+                    <Popup>AGENT: {agent.name}</Popup>
                 </Marker>
             )
         )

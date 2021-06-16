@@ -33,18 +33,18 @@ export default function ServiceList({services,setServices}) {
         return [value, input];
     }
 
-    async function addService(){
-        newService = {
-            // CONTINUE
-        }
-        try{
-            await servicesAPI.addService(user._id, newService);
-        }
-        catch{
+    // async function addService(){
+    //     newService = {
+    //         // CONTINUE
+    //     }
+    //     try{
+    //         await servicesAPI.addService(user._id, newService);
+    //     }
+    //     catch{
 
-        }
+    //     }
         
-    }
+    // }
 
     return (
         <div className="Component">
@@ -83,7 +83,7 @@ export default function ServiceList({services,setServices}) {
                     </tr>
                 </tbody>
             </table>
-            <button onClick={addService}>Add Service</button>
+            {/* <button onClick={addService}>Add Service</button> */}
 
         </div>
     )
