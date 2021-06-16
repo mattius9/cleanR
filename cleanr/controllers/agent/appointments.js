@@ -1,4 +1,4 @@
-const Appointment = require('../models/appointment');
+const Appointment = require('../../models/appointment');
 module.exports= {
     getAppointments,
     accept,
@@ -6,7 +6,7 @@ module.exports= {
 //also add delete to controller and route
 async function getAppointments(req, res){
 try{
-    const appointments= await Appointment.find({agent: req.header.user});
+    const appointments= await Appointment.find({agent: req.header.user}).populate('client').exec();
     res.status(200).json(appointments);
 } catch(err){
     res.status(400).json(err);

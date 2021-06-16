@@ -27,6 +27,7 @@ function App() {
   const [user, setUser] = useState(getUser());
   const [toggleView, setToggleView] = useState(false)
   const [currentRole, setCurrentRole] = useState({role:getRole()})
+  const [agent, setAgent] = useState(null); // USED TO SET THE AGENT ID OF THE SERVICES PAGE CLIENT IS
 
 
   // const [currentRole, setCurrentRole] =useState(null);
@@ -55,7 +56,7 @@ function App() {
           <MapPage currentRole={currentRole} user={user} setUser={setUser}/>
         </Route>
         <Route path="/services">
-          <ServicesPage user={user} setUser={setUser}/>
+          <ServicesPage currentRole = {currentRole} agent = {agent} user={user} setUser={setUser}/>
         </Route>
       </Switch>
         :        

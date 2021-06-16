@@ -41,7 +41,7 @@ export default function MapPage({ currentRole, user, setUser}) {
                 try {
                     console.log('REACHED BEFORE FETCH');
                     // Using this route in case of separation of services from user in model
-                    const data = await mapsAPI.getAppointments();
+                    const data = await mapsAPI.getAppointments(user._id);
                     console.log('REACHED BEYOND FETCH');
                     console.log(data);
                     if(data) setAppointments(data);
@@ -57,7 +57,7 @@ export default function MapPage({ currentRole, user, setUser}) {
 
         return appointments.length === 0 ? null : (
             appointments.map((position, idx) =>
-                <Marker key={`marker-${idx}`} position={/*appointment.latitude, appointment.longitude */}>
+                <Marker key={`marker-${idx}`} position={[0,0]/*appointment.latitude, appointment.longitude */}>
                     <Popup>APPOINTMENT</Popup>
                 </Marker>
             )

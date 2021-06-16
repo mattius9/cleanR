@@ -7,8 +7,8 @@ export function getAgents() {
     return fetch(`${BASE_URL}/agents`, options).then(res => res.json());
 }
 
-export function getAppointments() {
-    const options = getOptionsGet();
+export function getAppointments(userId) {
+    const options = getOptionsGet(userId);
     return fetch(`${BASE_URL}/appointments`, options).then(res => res.json());
 }
 
@@ -19,10 +19,12 @@ export function getAppointments() {
 
 // Options Helper Functions
 
-function getOptionsGet() {
+function getOptionsGet(userId) {
+    const id = userId
   return {
     headers: {
       Authorization: `Bearer ${getToken()}`,
+      user: id
     },
     
   };
