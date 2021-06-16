@@ -85,9 +85,9 @@ export default function SignUpForm(props) {
     if(clientCheck) signUpObject['roles'].push({'role':'client'})
 
     console.log(signUpObject)
-    // const user= await signUp(signUpObject)
-    // props.setUser(user)
-    // console.log(user.name)
+    const user= await signUp(signUpObject)
+    props.setUser(user)
+    console.log(user.name)
     }
 
 
@@ -310,7 +310,7 @@ export default function SignUpForm(props) {
 
 
     return (
-        <div className="Component signup-page">
+        <div className="Component signup-page delta">
             <form id="signUpForm">
             {signUpView===0 ? 
             <div>

@@ -22,7 +22,8 @@ export async function signUp(userData) {
     const token = await usersAPI.signUp(userData);
     localStorage.setItem('token', token);
     return getUser();
-  } catch {
+  } catch(err) {
+    console.log(err);
     throw new Error('Invalid Sign Up');
   }
 }
