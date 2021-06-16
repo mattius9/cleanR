@@ -9,6 +9,7 @@ import { getUser } from '../../utilities/users-service';
 
 function App() {
   function getRole(role){
+    if (user === null) return null
     if (user.roles){
       if (user.roles.length === 1){
         return user.roles[0].role
