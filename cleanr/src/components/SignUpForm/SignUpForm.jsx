@@ -57,7 +57,6 @@ export default function SignUpForm(props) {
         else{
             await setLongitude(response[0].lon)
         }
-        errorEl.innerHTML=submitErrorString
         const signUpObject = {
             'name':userName,
             'email': email,
@@ -89,9 +88,15 @@ export default function SignUpForm(props) {
     if(clientCheck) signUpObject['roles'].push({'role':'client'})
 
     console.log(signUpObject)
-    const user= await signUp(signUpObject)
-    props.setUser(user)
-    console.log(user.name)
+    try{
+        const user= await signUp(signUpObject)
+        props.setUser(user)
+        console.log(user.name)
+    }
+    catch{
+        submitErrorString+="</br> SignUp Failed!"
+        errorEl.innerHTML=submitErrorString
+    }
     }
 
 

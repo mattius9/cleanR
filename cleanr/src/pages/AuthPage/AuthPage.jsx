@@ -17,7 +17,7 @@ export default function AuthPage(props) {
             <Switch>
             {authView === 'login' ? 
             <div className="login">
-                <LoginForm />
+                <LoginForm setUser={props.setUser} />
                 <button onClick={()=>{setAuthView('signup')}}>Sign Up</button>
             </div>
             :
