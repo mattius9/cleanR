@@ -33,20 +33,22 @@ export default function ServiceList({services,setServices}) {
         return [value, input];
     }
 
-    function addService(){
-        // useEffect(function(){
-        //     async function add(){
-        //         const data = await servicesAPI.getAll();
-        //         setServices(data);
-        //     }
-        //     fetchServices();
-        // }, []);
+    async function addService(){
+        newService = {
+            // CONTINUE
+        }
+        try{
+            await servicesAPI.addService(user._id, newService);
+        }
+        catch{
+
+        }
+        
     }
 
     return (
         <div className="Component">
             {serviceList ? <>{serviceList}</>:<p>No Services Yet</p>}
-            {/* {services ? <>{services}</> : <h1>service object no good</h1>} */}
             ADD SERVICE
 
             <table className="add-service-form">

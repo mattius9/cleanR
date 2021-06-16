@@ -7,9 +7,9 @@ export function getMyServices(userId) {
     return fetch(`${BASE_URL}/myServices`, options).then(res => res.json());
 }
 
-export function addOne() {
+export function addService(userId,data) {
     const options = getOptionsPut();
-    return fetch(`${BASE_URL}/create`, options).then(res => res.json());
+    return fetch(`${BASE_URL}/addService`, options).then(res => res.json());
 }
 
 // export function getInProximity(){
@@ -40,12 +40,16 @@ function getOptionsPost() {
   };
 }
 
-function getOptionsPut() {
+function getOptionsPut(userId, data) {
+  const id = userId
+  const content = data
   return {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
+      Authorization: `Bearer ${getToken()}`,
+      user: id
+    },
+    body: JSON.stringify(content)
   };
 }
