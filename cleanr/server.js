@@ -20,8 +20,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 //Put API routes here before "catch all"
 app.use('/api/users', require('./routes/api/users'));
 // app.use(require('./config/auth'));
-
-
+app.use('/api/services', require('./routes/api/agent/services'));
 
 
 // Catch all route

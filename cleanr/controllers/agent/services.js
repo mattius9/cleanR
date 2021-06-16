@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../../models/user');
 module.exports= {
     index,
     create,
@@ -6,7 +6,11 @@ module.exports= {
 //Shows all Services
 async function index(req, res){
 try{
-    let user= await User.find({ user: req.user._id});
+    console.log("GET SERVICES TRY BLOCK")
+    // console.log(req);
+    console.log(req.headers.user);
+    let user= await User.findById(req.headers.user);
+    console.log(`User Name:${user.name}`);
     let services = user.services;
     res.status(200).json(services);
 } catch(err){
