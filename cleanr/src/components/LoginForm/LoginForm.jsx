@@ -9,6 +9,7 @@ export default function LoginForm(props) {
         try{
 
             const user = await login(credentials);
+            props.setUser(user)
         }
         catch{
             console.log("NO WORKING!")

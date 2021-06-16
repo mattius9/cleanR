@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
+SALT_ROUNDS = 7;
 const reviewSchema = new Schema({
   content: String,
   rating: {type: Number, min: 1, max: 5, default: 5}
@@ -33,7 +35,7 @@ const serviceSchema = new Schema({
   timestamps: true
 });
 const userSchema = new Schema({
-  name: {type: String, required: true},
+  name: {type: String, unique: true, required: true},
   email: {
     type: String,
     unique: true,
@@ -114,5 +116,16 @@ const userSchema = new Schema({
     }
   }
 });
-
+userSchema.pre('save', function(next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+  console.log("howdy pardner!")
+  // password has been changed - salt and hash it
+  bcrypt.hash(user.password, SALT_ROUNDS, function(err, hash) {
+    if (err) return next(err);
+    // Update the password property with the hash
+    user.password = hash;
+    return next();
+  });
+});
 module.exports = mongoose.model('User', userSchema);
