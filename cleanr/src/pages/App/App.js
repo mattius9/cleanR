@@ -38,10 +38,10 @@ function App() {
     
     <div className="App">
       <header className="App-header">cleanR</header>
-      {!toggleView ? <div>
+      {/* {!toggleView ? <div>
         <button value="agent" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({role: e.target.value})}}>Agent</button>
         <button value="client" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({ role: e.target.value})}}>Client</button>
-        </div>:null}
+        </div>:null} */}
           <div>{currentRole.role}</div>
           {/* <div>{user}</div> */}
           {/* <div>{user.roles[0].role}</div> */}
