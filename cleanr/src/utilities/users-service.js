@@ -7,11 +7,15 @@ export function getUser() {
 }
 
 export async function login(credentials) {
+  console.log("Credentials:",credentials);
   try {
+    console.log(`LOGIN PROGRESS CHECK 1`);
     const token = await usersAPI.login(credentials);
+    console.log(`LOGIN PROGRESS CHECK 2`);
     localStorage.setItem('token', token);
     return getUser();
-  } catch {
+  } catch (err){
+    console.log(err);
     throw new Error('Bad Credentials');
   }
 }

@@ -9,7 +9,7 @@ export default function ServicesPage({ currentRole, user, setUser}) {
     // State
     const [services, setServices] = useState([]);
     let agentId;
-    if(currentRole == "agent") agentId = user._id;
+    if(currentRole.role == "agent") {agentId = user._id;}
     // {currentRole == "agent" ? agentId=user._id : null}
     
     console.log(`UserID`,user._id);
@@ -34,7 +34,7 @@ export default function ServicesPage({ currentRole, user, setUser}) {
     return (
         <div className="Page">
             Services Page 
-            <ServiceList services = {services} setServices= {setServices}/>
+            <ServiceList user={user} services = {services} setServices= {setServices}/>
             <LogOut user={user} setUser={setUser}/>
         </div>
     )

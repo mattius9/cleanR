@@ -4,7 +4,7 @@ import Service from '../Service/Service';
 
 import * as servicesAPI from '../../utilities/services-api';
 
-export default function ServiceList({services,setServices}) {
+export default function ServiceList({user,services,setServices}) {
     // State
     const [name, setName] = useInput({type: "text"}, "Service Name");
     const [price, setPrice] = useInput({type: "number"}, "Hourly Price");
@@ -30,24 +30,24 @@ export default function ServiceList({services,setServices}) {
         return [value, input];
     }
 
-    // async function addService(){
-    //     newService = {
-    //         // CONTINUE
-    //     }
-    //     try{
-    //         await servicesAPI.addService(user._id, newService);
-    //     }
-    //     catch{
-
-    //     }
+    async function addService(){
+        const newService = {
+            name: name,
+            price: price,
+            minHours: minHours
+        }
+        try{
+            await servicesAPI.addService(user._id, newService);
+        }
+        catch(err){
+            console.log(`Add Service Error`,err);
+        }
         
-    // }
+    }
 
     return (
         <div className="Component">
             {serviceList ? <>{serviceList}</>:<p>No Services Yet</p>}
-            ADD SERVICE
-
             <table className="add-service-form">
                         <thead>
                         <th>Add Service</th>
@@ -80,7 +80,7 @@ export default function ServiceList({services,setServices}) {
                     </tr>
                 </tbody>
             </table>
-            {/* <button onClick={addService}>Add Service</button> */}
+            <button onClick={addService}>Add Service</button>
 
         </div>
     )

@@ -8,7 +8,7 @@ export function getMyServices(userId) {
 }
 
 export function addService(userId,data) {
-    const options = getOptionsPut();
+    const options = getOptionsPut(userId,data);
     return fetch(`${BASE_URL}/addService`, options).then(res => res.json());
 }
 
