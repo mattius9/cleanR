@@ -31,7 +31,6 @@
 .Page{
   /* border: 1px solid green; */
   min-width: 80%;
-  max-height: 100vh;
 }
 
 .Component{

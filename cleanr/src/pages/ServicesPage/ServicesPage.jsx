@@ -6,7 +6,7 @@ import LogOut from '../../components/LogOut/LogOut';
 
 import * as servicesAPI from '../../utilities/services-api';
 
-export default function ServicesPage({ setAgent, currentRole, user, setUser}) {
+export default function ServicesPage({ currentRole, user, setUser}) {
     // State
     const [services, setServices] = useState([]);
     

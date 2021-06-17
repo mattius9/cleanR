@@ -15,10 +15,10 @@ function App() {
       if (user.roles.length === 1){
         return user.roles[0].role
       }
-      else{
-        // setToggleView(true)
-        return user.roles[0].role
-      }
+      // else{
+      //   // setToggleView(true)
+      //   return user.roles[0].role
+      // }
     }
     else{
       return null;
@@ -47,7 +47,7 @@ function App() {
         ? 
             <Switch>
               <Route path="/myAppointments">
-                <AppointmentsPage user={user} setUser={setUser}/>
+                <AppointmentsPage role={currentRole} user={user} setUser={setUser}/>
               </Route>
               <Route path="/map">
                 <MapPage setAgent={setAgent} currentRole={currentRole} user={user} setUser={setUser}/>
@@ -59,7 +59,7 @@ function App() {
           :
               <Switch>
                 <Route path="/myAppointments">
-                  <AppointmentsPage user={user} setUser={setUser}/>
+                  <AppointmentsPage role={currentRole} user={user} setUser={setUser}/>
                 </Route>
                 <Route path="/map">
                   <MapPage setAgent={setAgent} currentRole={currentRole} user={user} setUser={setUser}/>

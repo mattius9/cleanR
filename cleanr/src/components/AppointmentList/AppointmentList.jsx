@@ -6,14 +6,19 @@ export default function AppointmentList({role, user, appointments}) {
     
     let appointmentList = null;
     if (appointments){
-        // serviceList = services.map(service => console.log(service))
-        appointmentList = appointments.map(appointment =>
-            <Appointment 
-            appointment = {appointment} role={role} user={user}
-            />
-        );
+        appointmentList = appointments.map(appointment =>{
+            if(role.role == "client" && user._id == appointment.client._id){
+                    return(<Appointment 
+                        appointment = {appointment} role={role} user={user}
+                        />)
+            }
+            else if( role.role == "agent" && user._id == appointment.agent._id){
+                    return(<Appointment 
+                    appointment = {appointment} role={role} user={user}
+                    />)
+            }
+        });
     }
-
     return (
         <div className="appointment-list-container">
             {appointmentList ? <>{appointmentList}</>: <p>No Appointments Yet</p>}

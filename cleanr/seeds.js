@@ -233,8 +233,8 @@ function addDays(date, days) {
         startTime: time9,
         endTime: time10,
         status: 'pending',
-        client: users[1],
-        agent: users[3],
+        client: users[3],
+        agent: users[1],
     };
 try{
     const appointments = await Appointment.create([ appointment1, appointment2, appointment3, appointment4, appointment5]);
