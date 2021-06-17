@@ -1,25 +1,60 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./PopupCreateAppointment.css"
-export default function PopupCreateAppointment({trigger, setTrigger}) {
+export default function PopupCreateAppointment({user, agent, service, trigger, setTrigger}) {
 
-    const [name, setName] = useState("");
+
+
+
+    const [date, setDate] = useInput({type: "date"});
+    const [startTime, setStartTime] = useInput({type: "time"});
+    const [endTime, setEndTime] = useInput({type: "time"});
+    const [status, setStatus] = useState("pending");
+
+    const [appointment, setAppointment] = useState(null);
+
+    function useInput({ type /*...*/ }) {
+        const [value, setValue] = useState("");
+        let input="";
+        input = <input required value={value} onChange={e => setValue(e.target.value)} type={type} />;
+        return [value, input];
+    }
+
+    
+
+    async function makeAppointment(){
+        const newAppointment = {
+            serviceName: service.name,
+            // servicePrice: totalPrice,
+            startTime: startTime,
+            endTime: endTime,
+            status: status,
+            client: user._id,
+            agent: agent,
+        }
+        try{
+            // let response = await appointmentsAPI.makeAppointment(user._id,agent,newAppointment);
+            // setAppointment(response);
+            // REDIRECT TO APPOINTMENTS?
+        } catch(err){
+            console.log(`Make Appointment Error`);
+        }
+    }
+
     const handleSubmit = (e) => {
       e.preventDefault();
       alert(`Submitting Appointment `);
+      makeAppointment();
   }
 
     return ( trigger ? 
         <div className="popup">
             <div className="popup-inner">
+                <h2>Make New Appointment</h2>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Date:
-                        <input
-                        type="date"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        />
-                    </label>
+                    <label for="date">Date:</label>
+                    {setDate}
+                    <label for="startTime">Start Time:</label>
+                    {setStartTime}
                     <input type="submit" value="Submit" />
                 </form>
                 {/* SERVICE SELECTED, THIS IS THE FORM TO SELECT DATE/TIME */}

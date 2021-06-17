@@ -5,7 +5,7 @@ import PopupCreateAppointment from '../PopupCreateAppointment/PopupCreateAppoint
 
 import * as servicesAPI from '../../utilities/services-api';
 
-export default function ServiceList({currentRole, user,services,setServices}) {
+export default function ServiceList({agent, currentRole, user,services,setServices}) {
     // State
     const [name, setName] = useInput({type: "text"}, "Service Name");
     const [price, setPrice] = useInput({type: "number"}, "Hourly Price");
@@ -21,12 +21,15 @@ export default function ServiceList({currentRole, user,services,setServices}) {
         serviceList = services.map(service =>{
             if(currentRole.role == "agent"){
                 return(<Service 
-                    service = {service}
+                        user = {user}
+                        service = {service}
                     />)
             }
             else if( currentRole.role == "client"){
                 return(<Service 
+                            user = {user}
                             service = {service}
+                            agent = {agent}
                         />)
             }
             

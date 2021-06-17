@@ -9,8 +9,10 @@ import * as servicesAPI from '../../utilities/services-api';
 export default function ServicesPage({ currentRole, user, setUser}) {
     // State
     const [services, setServices] = useState([]);
+    const [agent, setAgent] = useState(null);
     
     let {agentId} = useParams();
+    
 
     if(currentRole.role == "agent") {agentId = user._id;}
     // {currentRole == "client" ? agentId=user._id : null}
@@ -29,12 +31,13 @@ export default function ServicesPage({ currentRole, user, setUser}) {
             }
         }
         fetchServices();
+        setAgent(agentId);
     }, []);
 
     return (
         <div className="Page">
             {currentRole.role == "client" ? <>{agentId}'s services</> : null}
-            <ServiceList currentRole={currentRole} user={user} services = {services} setServices= {setServices}/>
+            <ServiceList currentRole={currentRole} user={user} agent={agent} services = {services} setServices= {setServices}/>
             <LogOut user={user} setUser={setUser}/>
         </div>
     )
