@@ -38,6 +38,7 @@ export default function ServiceList({user,services,setServices}) {
         }
         try{
             await servicesAPI.addService(user._id, newService);
+            // setServices()
         }
         catch(err){
             console.log(`Add Service Error`,err);

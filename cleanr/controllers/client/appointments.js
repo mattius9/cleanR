@@ -1,4 +1,5 @@
-const AppointmentModel = require('../models/appointment');
+const User = require('../../models/user');
+const Appointment = require('../../models/appointment');
 module.exports= {
     index,
     create,
@@ -7,7 +8,10 @@ module.exports= {
 //Shows all of client's appointments
 async function index(req, res){
 try{
-    let appointments= await AppointmentModel.find();
+    // let user= await User.findById(req.headers.user).populate('appointments').exec();
+    // console.log(user);
+    // let appointments = user.appointments;
+    let appointments = await Appointment.find({client : req.headers.user}).populate('agent').exec();
     res.status(200).json(appointments);
 } catch(err){
     res.status(400).json(err);
@@ -17,7 +21,7 @@ try{
 //The function for when the user creates an appointment
 async function create(req, res){
 try{
-    let appointments= await AppointmentModel.find();
+    let appointments= await Appointment.find();
     console.log('accept')
     res.status(200).json(appointments);
 } catch(err){

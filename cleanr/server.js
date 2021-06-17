@@ -22,6 +22,7 @@ app.use('/api/users', require('./routes/api/users'));
 // app.use(require('./config/auth'));
 app.use('/api/services', require('./routes/api/agent/services'));
 app.use('/api/map', require('./routes/api/map'));
+app.use('/api/appointments', require('./routes/api/client/appointments'))
 
 
 // Catch all route

@@ -1,3 +1,6 @@
+// NO ROUTES USED HERE YET, CONSIDER MERGE WTIH CLIENT APPOINTMENTS
+
+
 const express = require('express');
 const agentAppointmentsCtrl = require('../../../controllers/agent/appointments');
 const router = express.Router();

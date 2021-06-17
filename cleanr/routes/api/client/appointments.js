@@ -3,8 +3,8 @@ const clientAppointmentsCtrl = require('../../../controllers/client/appointments
 const router = express.Router();
 
 // POST /api/client/appointments (retrieves the client's appointment info) for calendar/list view
-router.get('/client/appointments', clientAppointmentsCtrl.index);
+router.get('/client/index', clientAppointmentsCtrl.index);
 // POST /api/client/create (allows the client to create an appointment, awaiting status) 
-router.post('/client/appointments/create', clientAppointmentsCtrl.create);
+router.post('/client/create', clientAppointmentsCtrl.create);
 
 module.exports = router;

@@ -98,7 +98,6 @@ export default function MapPage({ currentRole, user, setUser}) {
 
     return (
         <div className="Page">
-            Map Page
             <MapContainer center={[lat, lng]} zoom={10} scrollWheelZoom={true}>
                 <BasemapLayer name="Streets" />
                 <LocationMarker />
@@ -115,28 +114,3 @@ export default function MapPage({ currentRole, user, setUser}) {
         </div>
     )
 }
-
-
-// Unused functionality:
-
-/*
-                addressFetch(e.latlng.lat, e.latlng.lng);
-
-                    function addMarker(){
-                        e.preventDefault();
-                        const marker = e.latlng;
-                        setMarkers(currentMarkers => [...currentMarkers, marker])
-                        console.log(markers);
-                    };
-
-    async function addressFetch(lat,lng){
-        let response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=PointAddress&location=${lng}%2C${lat}`);
-        response = await response.json();
-        console.log(response.address);
-        console.log(response.address.Address);
-    }
-
-                <button onClick={()=> addressFetch(lat, lng)}>Get Address</button>
-
-
-*/

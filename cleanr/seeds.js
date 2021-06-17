@@ -202,7 +202,7 @@ function addDays(date, days) {
         startTime: time3,
         endTime: time4,
         status: 'pending',
-        client: users[0],
+        client: users[1],
         agent: users[2],
 
     };
