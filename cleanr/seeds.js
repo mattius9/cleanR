@@ -99,7 +99,7 @@ const user4 = {
 const user5={
     name: 'doubleAgent',
     email: 'agent2@test.com',
-    displayName: 'WhichSide?',
+    displayName: 'WhichSide',
     services:[service1, service2, service3],
     joined: Date.now(),
     password:"password",

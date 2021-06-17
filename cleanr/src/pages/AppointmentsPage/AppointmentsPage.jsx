@@ -6,7 +6,7 @@ import AppointmentCalendar from "../../components/AppointmentCalendar/Appointmen
 
 import * as appointmentsAPI from '../../utilities/appointments-api';
 
-export default function AppointmentsPage({user, setUser}) {
+export default function AppointmentsPage({user, role, setUser}) {
 
     const [appointments, setAppointments] = useState([]);
     const[toggleAppointmentView, setToggleAppointmentView] = useState('list')
@@ -33,7 +33,7 @@ export default function AppointmentsPage({user, setUser}) {
             <div className="appointment-container">
                 
             {toggleAppointmentView === 'list' ?
-            <AppointmentList appointments={appointments}/>:
+            <AppointmentList role ={role} user ={user} appointments={appointments}/>:
             <AppointmentCalendar />}
             </div>
             <div className="toggle-appointment-view">
