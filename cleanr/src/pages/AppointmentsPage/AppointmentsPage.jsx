@@ -9,6 +9,11 @@ import * as appointmentsAPI from '../../utilities/appointments-api';
 export default function AppointmentsPage({user, setUser}) {
 
     const [appointments, setAppointments] = useState([]);
+    const[toggleAppointmentView, setToggleAppointmentView] = useState('list')
+    function switchView(e){
+        document.getElementById('appt-list');
+        document.getElementById('appt-calendar');
+    }
 
     useEffect( function(){
         async function fetchAppointments(){
@@ -21,12 +26,20 @@ export default function AppointmentsPage({user, setUser}) {
             }
         }
         fetchAppointments();
-    },[]);
+    },[toggleAppointmentView]);
 
     return (
         <div className="Page">
-            <AppointmentCalendar />
-            <AppointmentList appointments={appointments}/>
+            <div className="appointment-container">
+                
+            {toggleAppointmentView === 'list' ?
+            <AppointmentList appointments={appointments}/>:
+            <AppointmentCalendar />}
+            </div>
+            <div className="toggle-appointment-view">
+                <button type="button" id="appt-list" className="appt-view-btn calendar">List</button> 
+                <button type="button" id="appt-calendar" className="appt-view-btn list">Calendar</button> 
+                </div>
             <LogOut user={user} setUser={setUser}/>
         </div>
     )

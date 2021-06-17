@@ -15,7 +15,7 @@ export default function AppointmentList({appointments}) {
     }
 
     return (
-        <div className="Component">
+        <div className="appointment-list-container">
             {appointmentList ? <>{appointmentList}</>: <p>No Appointments Yet</p>}
         </div>
     )

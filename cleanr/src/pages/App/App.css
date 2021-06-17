@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  background: url(https://i.imgur.com/zqn0gS5.jpg);
+  /* background: url(https://i.imgur.com/zqn0gS5.jpg); */
+  background:purple;
   background-size: cover;
   margin: 0 auto;
 }
@@ -47,7 +48,6 @@
     );
   background-size: cover;
   padding: 0.5rem 0;
-  max-width: 50ch;
   border-radius: 0.25rem;
   border: 1px solid red;
 
@@ -57,6 +57,7 @@
 .card:hover,
 .card:focus-within {
     transform: scale(1.05);
+    cursor:pointer;
 }
 .blue-button>:first-child{
   min-width: 30vw

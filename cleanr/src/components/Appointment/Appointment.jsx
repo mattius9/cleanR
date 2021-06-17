@@ -2,26 +2,45 @@ import React from 'react';
 import './Appointment.css';
 
 export default function Appointment({appointment}) {
-    const endTime = Date.parse(appointment.endTime);
-    const startTime = Date.parse(appointment.startTime);
-    const difference = endTime-startTime;
-    const minutes = 1000 *60
-    const hours = minutes * 60;
 
-    const totalHours = Math.round(difference/hours)
+    const setTime = (time) => {
+        let hours = time.getHours();
+        let minutes = time.getMinutes();    
+        const ampm = hours >= 12 ? 'pm' : 'am';
+      
+        hours %= 12;
+        hours = hours || 12;    
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+      
+        const timeString = `${hours}:${minutes} ${ampm}`;
+      
+        return timeString;
+      };
+      const endTimeToDate= new Date(appointment.endTime);
+      const startTimeToDate = new Date(appointment.startTime);
+      const startTime=setTime(startTimeToDate)
+      const endTime= setTime(endTimeToDate)
+      
 
-    console.log(typeof appointment.startTime);
+      const endHours = Date.parse(appointment.endTime);
+      const startHours = Date.parse(appointment.startTime);
+      const difference = endHours-startHours;
+      const hours = 1000 *60* 60;
+  
+      const totalHours = Math.round(difference/hours)
+      const apptDate = new Date(appointment.startTime)
+      console.log();
+
+    console.log(apptDate.toLocaleString([], { hour12: true}));
     return (
         <div className="card">
-            <p>{appointment.status}</p>
-            <p>Duration : {totalHours}</p>
-            <p>Date: {appointment.startTime} </p>
-            <p>Start Time: {appointment.startTime} </p>
-            <p>End Time: {appointment.endTime}</p>
-            <p>Service: {appointment.serviceName}</p>
-            <p>agent: {appointment.agent.name}</p>
-            <p>client: {appointment.client.name}</p>
-            <p>total price: {appointment.servicePrice*totalHours}</p>
+            <div className="appointment-details service-title">Service: {appointment.serviceName}</div>
+            <div className="appointment-details status">{appointment.status}</div>
+            <div className="appointment-details">{startTimeToDate.getFullYear() + "/" + (startTimeToDate.getMonth() + 1) + "/" + startTimeToDate.getDate()}</div>
+            <div className="appointment-details">{startTime} to {endTime} ({totalHours} hrs)</div>
+            <div className="appointment-details">agent: {appointment.agent.name}</div>
+            <div className="appointment-details">client: {appointment.client.name}</div>
+            {/* <p>total price: {appointment.servicePrice*totalHours}</p> */}
         </div>
     )
 }
