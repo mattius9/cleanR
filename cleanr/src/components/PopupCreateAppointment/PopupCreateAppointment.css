@@ -26,3 +26,8 @@
     top: 16px;
     right:16px;
 }
+
+.appointment-form{
+    display: flex;
+    flex-direction: column;
+}

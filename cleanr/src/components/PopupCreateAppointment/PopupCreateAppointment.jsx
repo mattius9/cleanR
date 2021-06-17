@@ -10,6 +10,8 @@ export default function PopupCreateAppointment({user, agent, service, trigger, s
     const [endTime, setEndTime] = useInput({type: "time"});
     const [status, setStatus] = useState("pending");
 
+    const hours = 1000*60*60;
+
     const [appointment, setAppointment] = useState(null);
 
     function useInput({ type /*...*/ }) {
@@ -19,12 +21,16 @@ export default function PopupCreateAppointment({user, agent, service, trigger, s
         return [value, input];
     }
 
-    
-
     async function makeAppointment(){
+        const endHours = Date.parse(endTime);
+        const startHours = Date.parse(startTime);
+        const difference = endHours-startHours;
+        const totalHours = Math.round(difference/hours);
+        const totalPrice = totalHours*service.price;
+
         const newAppointment = {
             serviceName: service.name,
-            // servicePrice: totalPrice,
+            servicePrice: totalPrice,
             startTime: startTime,
             endTime: endTime,
             status: status,
@@ -50,11 +56,16 @@ export default function PopupCreateAppointment({user, agent, service, trigger, s
         <div className="popup">
             <div className="popup-inner">
                 <h2>Make New Appointment</h2>
-                <form onSubmit={handleSubmit}>
+                <form className="appointment-form" onSubmit={handleSubmit}>
+                    <label for ="Service">Service Type: {service.name}</label>
                     <label for="date">Date:</label>
                     {setDate}
                     <label for="startTime">Start Time:</label>
                     {setStartTime}
+                    <label for="endTime">End Time:</label>
+                    {setEndTime}
+                    <label for="endTime">Hours:</label>
+                    {hours*(Date.parse(endTime)-Date.parse(startTime))}
                     <input type="submit" value="Submit" />
                 </form>
                 {/* SERVICE SELECTED, THIS IS THE FORM TO SELECT DATE/TIME */}
