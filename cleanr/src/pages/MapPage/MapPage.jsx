@@ -3,6 +3,7 @@ import React, { useEffect, useState} from 'react';
 import LogOut from '../../components/LogOut/LogOut';
 import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
 import { BasemapLayer} from "react-esri-leaflet";
+import {Link} from 'react-router-dom';
 
 import * as mapsAPI from '../../utilities/map-api';
 
@@ -59,7 +60,7 @@ export default function MapPage({ currentRole, user, setUser}) {
         return appointments.length === 0 ? null : (
             appointments.map((appointment, idx) =>
                 <Marker key={`marker-${idx}`} position={[appointment.client.latitude,appointment.client.longitude]}>
-                    <Popup>Appointment at {appointment.client.location.address} on {appointment.startTime}</Popup>
+                    <Popup>Appointment at {appointment.client.location.address} on {appointment.startTime}<Link/></Popup>
                 </Marker>
             )
         )
@@ -88,7 +89,7 @@ export default function MapPage({ currentRole, user, setUser}) {
         return agents.length === 0 ? null : (
             agents.map((agent, idx) =>
                 <Marker key={`marker-${idx}`} position={[agent.latitude, agent.longitude]}>
-                    <Popup>AGENT: {agent.name} ID: {agent._id}</Popup>
+                    <Popup>AGENT: {agent.name} ID: {agent._id}<Link to="/">Services</Link></Popup>
                 </Marker>
             )
         )
