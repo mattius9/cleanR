@@ -8,7 +8,6 @@ export default function ServiceList({services,setServices}) {
     // State
     const [name, setName] = useInput({type: "text"}, "Service Name");
     const [price, setPrice] = useInput({type: "number"}, "Hourly Price");
-
     const [minHours, setMinHours] = useState(3);
 
     console.log(`Services on ServiceList ${services}`)
@@ -27,9 +26,7 @@ export default function ServiceList({services,setServices}) {
     function useInput({ type /*...*/ }, placeholder) {
         const [value, setValue] = useState("");
         let input="";
-
         input = <input required value={value} placeholder={placeholder} onChange={e => setValue(e.target.value)} type={type} />;
-
         return [value, input];
     }
 

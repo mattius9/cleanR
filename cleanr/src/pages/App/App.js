@@ -10,7 +10,7 @@ import PaymentForm from '../../components/PaymentForm/PaymentForm';
 
 function App() {
   function getRole(){
-    if (user === null) return null
+    if (user === null) return null;
     if (user.roles){
       if (user.roles.length === 1){
         return user.roles[0].role
@@ -29,12 +29,6 @@ function App() {
   const [currentRole, setCurrentRole] = useState({role:getRole()})
   const [agent, setAgent] = useState(null); // USED TO SET THE AGENT ID OF THE SERVICES PAGE CLIENT IS
 
-
-  // const [currentRole, setCurrentRole] =useState(null);
-
-  // { currentRole ? null:((user.roles.length>1) ? <div>
-  //   TOGGLE THE VIEW
-  // </div>:setCurrentRole(user.roles[0].role)) }
 
   return (
     
