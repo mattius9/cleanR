@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import * as mapsAPI from '../../utilities/map-api';
 
-export default function MapPage({ currentRole, user, setUser}) {
+export default function MapPage({ currentRole, user, setUser, setAgent}) {
 
     // Lat & LNG used for testing
     const [lat, setLat] = useState(51.505);
@@ -89,7 +89,7 @@ export default function MapPage({ currentRole, user, setUser}) {
         return agents.length === 0 ? null : (
             agents.map((agent, idx) =>
                 <Marker key={`marker-${idx}`} position={[agent.latitude, agent.longitude]}>
-                    <Popup>AGENT: {agent.name} ID: {agent._id}<Link to="/">Services</Link></Popup>
+                    <Popup>AGENT: {agent.name} ID: {agent._id}<Link to={`/services/${agent._id}`}>Services</Link></Popup>
                 </Marker>
             )
         )
