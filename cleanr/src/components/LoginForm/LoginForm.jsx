@@ -6,14 +6,19 @@ export default function LoginForm(props) {
         console.log(loginName)
         console.log(loginPass)
         let credentials = {username: loginName, password: loginPass}
+        let user1;
         try{
             const user = await login(credentials);
-            props.setUser(user)
+            console.log("HERE IS OUR USER", user);
+            user1 = user;
+            // props.setUser(user);
         }
         catch(err){
             console.log("NO WORKING!")
             console.log(err);
         }
+        console.log("OUR USER IS NOW:",user1);
+        props.setUser(user1);
     }
     const [loginName, setLoginName] = useState('')
     const [loginPass, setLoginPass] = useState('')
@@ -29,7 +34,6 @@ export default function LoginForm(props) {
                 <input value={loginPass} onChange={(e)=>{setLoginPass(e.target.value)}} type="password" id="password"></input>
                 <button type="button" onClick={()=>{submitLogin()}}>Login</button>
             </form>
-            <button onClick={()=>{submitLogin()}}>TEST</button>
         </div>
     )
 }

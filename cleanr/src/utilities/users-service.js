@@ -3,6 +3,9 @@ import * as usersAPI from './users-api';
 export function getUser() {
   const token = getToken();
   // If there's a token, return the user in the payload, otherwise return null
+  console.log("AM I A LOOP?");
+  console.log(token);
+  if(token)console.log(JSON.parse(atob(token.split('.')[1])).user);
   return token ? JSON.parse(atob(token.split('.')[1])).user : null;
 }
 

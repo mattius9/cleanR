@@ -193,7 +193,7 @@ function addDays(date, days) {
         endTime: time2,
         status: 'confirmed',
         client: users[0],
-        agent: users[2],
+        agent: users[3],
 
     };
     const appointment2 = {
@@ -203,7 +203,7 @@ function addDays(date, days) {
         endTime: time4,
         status: 'pending',
         client: users[1],
-        agent: users[2],
+        agent: users[3],
 
     };
 
@@ -214,7 +214,7 @@ function addDays(date, days) {
         endTime: time6,
         status: 'cancelled',
         client: users[0],
-        agent: users[2],
+        agent: users[3],
     };
 
     const appointment4 = {
@@ -224,7 +224,7 @@ function addDays(date, days) {
         endTime: time8,
         status: 'confirmed',
         client:users[0],
-        agent: users[2],
+        agent: users[3],
     };
 
     const appointment5 = {
