@@ -1,7 +1,7 @@
 const User = require('../../models/user');
 module.exports= {
     index,
-    create,
+    addService,
 }
 //Shows all Services
 async function index(req, res){
@@ -15,13 +15,15 @@ try{
 }
 
 //Allows agent to create a service
-async function create(req, res){
+async function addService(req, res){
 try{
     let user= await User.findById(req.headers.user);
+    console.log(user);
+    console.log(req.body);
     user.services.push(req.body);
     await user.save();
     console.log('create');
-    res.status(200).json(services);
+    res.status(200).json(user.services);
 } catch(err){
     res.status(400).json(err);
 }

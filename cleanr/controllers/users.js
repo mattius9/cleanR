@@ -26,16 +26,17 @@ async function create(req, res) {
 
 async function login(req, res) {
   try {
-    console.log('WOOHOO WE GOT HERE!')
+    console.log('WOOHOO WE GOT HERE!');
     const user = await User.findOne({ name: req.body.username });
-    console.log(user.password)
-    console.log(req.body.password)
+    console.log(user.password);
+    console.log(req.body.password);
     // check password. if it's bad throw an error.
     if (!(await bcrypt.compare(req.body.password, user.password))) throw new Error();
-    console.log('did we get here?')
+    console.log('did we get here?');
     // // if we got to this line, password is ok. give user a new token.
     const token = jwt.sign({ user }, process.env.SECRET,{ expiresIn: '24h' });
-    res.json(token)
+    console.log('token created, but it shouldnt be');
+    res.json(token);
   } catch {
     res.status(400).json('Bad Credentials');
   }

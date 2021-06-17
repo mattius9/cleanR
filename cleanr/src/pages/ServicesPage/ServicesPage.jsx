@@ -9,7 +9,7 @@ export default function ServicesPage({ currentRole, user, setUser}) {
     // State
     const [services, setServices] = useState([]);
     let agentId;
-    if(currentRole == "agent") agentId = user._id;
+    if(currentRole.role == "agent") {agentId = user._id;}
     // {currentRole == "agent" ? agentId=user._id : null}
     
     console.log(`UserID`,user._id);
@@ -20,10 +20,7 @@ export default function ServicesPage({ currentRole, user, setUser}) {
             try {
                 // Using this route in case of separation of services from user in model
                 const data = await servicesAPI.getMyServices(user._id);
-                console.log('REACHED BEYOND FETCH');
-                console.log(data);
                 if(data) setServices(data);
-                console.log(`Service Page ${services}`);
             } catch(err){
                 console.log(err.message);
             }
@@ -33,8 +30,7 @@ export default function ServicesPage({ currentRole, user, setUser}) {
 
     return (
         <div className="Page">
-            Services Page 
-            <ServiceList services = {services} setServices= {setServices}/>
+            <ServiceList user={user} services = {services} setServices= {setServices}/>
             <LogOut user={user} setUser={setUser}/>
         </div>
     )

@@ -1,12 +1,15 @@
 const Appointment = require('../../models/appointment');
 module.exports= {
-    getAppointments,
+    getAgentAppointments,
     accept,
 }
 //also add delete to controller and route
-async function getAppointments(req, res){
+// 
+
+async function getAgentAppointments(req, res){
 try{
-    const appointments= await Appointment.find({agent: req.header.user}).populate('client').exec();
+    const appointments= await Appointment.find({agent: req.headers.user}).populate('client').exec();
+    console.log(appointments.length);
     res.status(200).json(appointments);
 } catch(err){
     res.status(400).json(err);

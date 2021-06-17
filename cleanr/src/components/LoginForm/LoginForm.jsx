@@ -7,12 +7,12 @@ export default function LoginForm(props) {
         console.log(loginPass)
         let credentials = {username: loginName, password: loginPass}
         try{
-
             const user = await login(credentials);
             props.setUser(user)
         }
-        catch{
+        catch(err){
             console.log("NO WORKING!")
+            console.log(err);
         }
     }
     const [loginName, setLoginName] = useState('')

@@ -11,7 +11,7 @@ export default function MapPage({ currentRole, user, setUser}) {
     // Lat & LNG used for testing
     const [lat, setLat] = useState(51.505);
     const [lng, setLng] = useState(-0.09);
-    console.log(currentRole);
+    console.log(currentRole.role);
 
 
     function LocationMarker() {
@@ -40,6 +40,7 @@ export default function MapPage({ currentRole, user, setUser}) {
             async function fetchAppointments(){
                 try {
                     console.log('REACHED BEFORE FETCH');
+                    console.log(`USER ID`, user._id);
                     // Using this route in case of separation of services from user in model
                     const data = await mapsAPI.getAppointments(user._id);
                     console.log('REACHED BEYOND FETCH');
@@ -56,9 +57,9 @@ export default function MapPage({ currentRole, user, setUser}) {
         },[]);
 
         return appointments.length === 0 ? null : (
-            appointments.map((position, idx) =>
-                <Marker key={`marker-${idx}`} position={[0,0]/*appointment.latitude, appointment.longitude */}>
-                    <Popup>APPOINTMENT</Popup>
+            appointments.map((appointment, idx) =>
+                <Marker key={`marker-${idx}`} position={[appointment.client.latitude,appointment.client.longitude]}>
+                    <Popup>Appointment at {appointment.client.location.address} on {appointment.startTime}</Popup>
                 </Marker>
             )
         )
@@ -97,14 +98,13 @@ export default function MapPage({ currentRole, user, setUser}) {
 
     return (
         <div className="Page">
-            Map Page
             <MapContainer center={[lat, lng]} zoom={10} scrollWheelZoom={true}>
                 <BasemapLayer name="Streets" />
                 <LocationMarker />
 
-                {currentRole.role == "client" ? <AppointmentMarkers /> : null}
+                {currentRole.role == "agent" ? <AppointmentMarkers /> : null}
 
-                {currentRole.role == "agent" ? <AgentMarkers /> : null}
+                {currentRole.role == "client" ? <AgentMarkers /> : null}
                 
                 <Marker position={[lat,lng]} />
 
@@ -114,28 +114,3 @@ export default function MapPage({ currentRole, user, setUser}) {
         </div>
     )
 }
-
-
-// Unused functionality:
-
-/*
-                addressFetch(e.latlng.lat, e.latlng.lng);
-
-                    function addMarker(){
-                        e.preventDefault();
-                        const marker = e.latlng;
-                        setMarkers(currentMarkers => [...currentMarkers, marker])
-                        console.log(markers);
-                    };
-
-    async function addressFetch(lat,lng){
-        let response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=PointAddress&location=${lng}%2C${lat}`);
-        response = await response.json();
-        console.log(response.address);
-        console.log(response.address.Address);
-    }
-
-                <button onClick={()=> addressFetch(lat, lng)}>Get Address</button>
-
-
-*/

@@ -6,6 +6,6 @@ const router = express.Router();
 // GET /api/map/agents
 router.get('/agents', usersCtrl.getAgents);
 
-router.get('/appointments', appointmentsCtrl.getAppointments);
+router.get('/appointments', appointmentsCtrl.getAgentAppointments);
 
 module.exports = router;
