@@ -9,3 +9,18 @@
 p{
     margin: 0.25rem 0;
 }
+.appointment-card{
+    display: grid;
+    grid-template-rows:repeat(4,1fr);
+    grid-template-columns: 4fr 3fr 3fr;
+}
+.appt-service-title{
+    font-size: 6vmin;
+    grid-area: 1/1/span 2/span 1;
+}
+
+.appt-service-price{
+    font-size: 7vmin;
+    grid-area: 1/3/span 4/span 1;
+    align-self:center;
+}

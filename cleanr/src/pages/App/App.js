@@ -44,7 +44,7 @@ function App() {
       { user ? 
       <Switch>
         <Route path="/appointments">
-          <AppointmentsPage user={user} setUser={setUser}/>
+          <AppointmentsPage user={user} role={currentRole.role} setUser={setUser}/>
         </Route>
         <Route path="/map">
           <MapPage currentRole={currentRole} user={user} setUser={setUser}/>
