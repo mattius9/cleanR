@@ -1,0 +1,33 @@
+.month-header{
+    background:white;
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+    margin: 0 auto;
+}
+.month-header >*{
+    margin:0 auto;
+}
+.month-body{
+    width:100%;
+    margin: 0 auto;
+}
+.month-name{
+    font-size:xx-large;
+}
+.weekday-names{
+    display:flex;
+    padding:0;
+    margin:0 auto;
+    justify-content: space-evenly;
+    background:white;
+}
+.weekday-name{
+    border-right:red;
+}
+.month-switch{
+    display: flex;
+    padding:0;
+    margin:0 auto;
+    justify-content: flex-end;
+}
