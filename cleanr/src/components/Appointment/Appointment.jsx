@@ -13,7 +13,7 @@ export default function Appointment({appointment}) {
     console.log(typeof appointment.startTime);
     return (
         <div className="card">
-            Appointment
+            <p>{appointment.status}</p>
             <p>Duration : {totalHours}</p>
             <p>Date: {appointment.startTime} </p>
             <p>Start Time: {appointment.startTime} </p>
