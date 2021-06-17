@@ -71,7 +71,7 @@ function App() {
                   <Redirect to="/myServices"/>
                 </Route>
               </Switch>) 
-      
+     
         :        
         <AuthPage setUser={setUser}/>
       }
