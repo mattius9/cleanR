@@ -7,6 +7,7 @@ import MapPage from '../MapPage/MapPage';
 import ServicesPage from '../ServicesPage/ServicesPage';
 import { getUser } from '../../utilities/users-service';
 import PaymentForm from '../../components/PaymentForm/PaymentForm';
+import LogOut from '../../components/LogOut/LogOut';
 
 function App() {
   function getRole(){
@@ -42,6 +43,8 @@ function App() {
         <Link className= "nav-links" to="/map">Map</Link>
             |
         <Link className= "nav-links" to="/">Home</Link>
+            |
+        <LogOut user={user} setUser={setUser}/>
       </nav>
       {user ? 
         (user.roles.length > 1 ? (<>

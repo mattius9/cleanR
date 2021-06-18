@@ -1,9 +1,7 @@
 import './AppointmentsPage.css';
 import React, {useState, useEffect}from 'react';
 import AppointmentList from '../../components/AppointmentList/AppointmentList';
-import LogOut from '../../components/LogOut/LogOut';
 import AppointmentCalendar from "../../components/AppointmentCalendar/AppointmentCalendar"
-
 import * as appointmentsAPI from '../../utilities/appointments-api';
 
 export default function AppointmentsPage({user, role, setUser}) {
@@ -39,7 +37,6 @@ export default function AppointmentsPage({user, role, setUser}) {
                 <button type="button" id="appt-list" className="appt-view-btn calendar">List</button> 
                 <button type="button" id="appt-calendar" className="appt-view-btn list">Calendar</button> 
                 </div>
-            <LogOut user={user} setUser={setUser}/>
         </div>
     )
 }

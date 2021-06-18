@@ -31,5 +31,20 @@ p{
         hsl(20 0% 0% / 0.3) 20%,
         var(--clr-neutral-900)
     );
-    
+}
+
+.appt-status-confirmed{
+    background: linear-gradient(
+        hsl(0 0% 0% / 0),
+        hsl(20 0% 0% / 0.3) 20%,
+        var(--clr-accent-400)
+    );
+}
+
+.appt-status-cancelled{
+    background: linear-gradient(
+        hsl(0 0% 0% / 0),
+        hsl(20 0% 0% / 0.3) 20%,
+        grayscale
+    );
 }
