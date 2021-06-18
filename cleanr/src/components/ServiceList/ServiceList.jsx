@@ -4,23 +4,30 @@ import Service from '../Service/Service';
 
 import * as servicesAPI from '../../utilities/services-api';
 
-export default function ServiceList({user,services,setServices}) {
+export default function ServiceList({agent, currentRole, user,services,setServices}) {
     // State
     const [name, setName] = useInput({type: "text"}, "Service Name");
     const [price, setPrice] = useInput({type: "number"}, "Hourly Price");
     const [minHours, setMinHours] = useState(3);
 
-    console.log(`Services on ServiceList ${services}`)
     let serviceList = null;
-    console.log(`Services: ${Object.keys(services)}`);
     if (services){
-        // serviceList = services.map(service => console.log(service))
-        serviceList = services.map(service =>
-            <Service 
-            // key={service._id}
-            service = {service}
-            />
-        );
+        
+        serviceList = services.map(service =>{
+            if(currentRole.role == "agent"){
+                return(<Service 
+                        user = {user}
+                        service = {service}
+                    />)
+            }
+            else if( currentRole.role == "client"){
+                return(<Service 
+                            user = {user}
+                            service = {service}
+                            agent = {agent}
+                        />)
+            }
+        });
     }
 
     function useInput({ type /*...*/ }, placeholder) {
@@ -37,8 +44,9 @@ export default function ServiceList({user,services,setServices}) {
             minHours: minHours
         }
         try{
-            await servicesAPI.addService(user._id, newService);
-            // setServices()
+            let response = await servicesAPI.addService(user._id, newService);
+            setServices(response);
+            
         }
         catch(err){
             console.log(`Add Service Error`,err);
@@ -49,39 +57,45 @@ export default function ServiceList({user,services,setServices}) {
     return (
         <div className="Component">
             {serviceList ? <>{serviceList}</>:<p>No Services Yet</p>}
-            <table className="add-service-form">
-                        <thead>
+            {currentRole.role == "agent" ? 
+                <table className="add-service-form">
+                    <thead>
                         <th>Add Service</th>
-                        </thead>
-                <tbody>
-                    <tr>
-                        <td><label for="name">Type:</label></td>
-                        <td>{setName}</td>
-                    </tr>
-                    <tr>
-                        <td><label for="price">Hourly Price: </label></td>
-                        <td>{setPrice}</td>
-                    </tr>
-                    <tr>
-                        <td><label for="minHours"> minimumHours: </label></td>
-                        <td>
-                            <select name='minHours'value={minHours} onChange={(e) => setMinHours(e.target.value)}>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button onClick={addService}>Add Service</button>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><label for="name">Type:</label></td>
+                            <td>{setName}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="price">Hourly Price: </label></td>
+                            <td>{setPrice}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="minHours"> minimumHours: </label></td>
+                            <td>
+                                <select name='minHours'value={minHours} onChange={(e) => setMinHours(e.target.value)}>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <button onClick={addService}>Add Service</button>
+                </table>
+    
+            :
+                <>Client view</>
+            }
+            
 
         </div>
     )

@@ -7,6 +7,7 @@ import MapPage from '../MapPage/MapPage';
 import ServicesPage from '../ServicesPage/ServicesPage';
 import { getUser } from '../../utilities/users-service';
 import PaymentForm from '../../components/PaymentForm/PaymentForm';
+import LogOut from '../../components/LogOut/LogOut';
 
 function App() {
   function getRole(){
@@ -15,10 +16,10 @@ function App() {
       if (user.roles.length === 1){
         return user.roles[0].role
       }
-      else{
-        // setToggleView(true)
-        return user.roles[0].role
-      }
+      // else{
+      //   // setToggleView(true)
+      //   return user.roles[0].role
+      // }
     }
     else{
       return null;
@@ -35,19 +36,29 @@ function App() {
     
     <div className="App">
       <header className="App-header">cleanR</header>
+      <nav className = "nav-links">
+        <Link className= "nav-links" to="/myAppointments">Appointments</Link>
+            |
+        {currentRole.role ==="agent" ? <><Link className= "nav-links" to="myServices">Services</Link> |</> : null}
+        <Link className= "nav-links" to="/map">Map</Link>
+            |
+        <Link className= "nav-links" to="/">Home</Link>
+            |
+        <LogOut user={user} setUser={setUser}/>
+      </nav>
       {user ? 
         (user.roles.length > 1 ? (<>
           <button value="agent" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({role: e.target.value})}}>Agent</button>
           <button value="client" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({ role: e.target.value})}}>Client</button>
         </>) : null)
-        : null}
+        : null
+      }
           <div>{currentRole.role}</div>
-
       { user ? (currentRole.role==="client" 
         ? 
             <Switch>
               <Route path="/myAppointments">
-                <AppointmentsPage user={user} role={currentRole} setUser={setUser}/>
+                <AppointmentsPage role={currentRole} user={user} setUser={setUser}/>
               </Route>
               <Route path="/map">
                 <MapPage setAgent={setAgent} currentRole={currentRole} user={user} setUser={setUser}/>
@@ -59,7 +70,7 @@ function App() {
           :
               <Switch>
                 <Route path="/myAppointments">
-                  <AppointmentsPage user={user} role={currentRole} setUser={setUser}/>
+                  <AppointmentsPage role={currentRole} user={user} setUser={setUser}/>
                 </Route>
                 <Route path="/map">
                   <MapPage setAgent={setAgent} currentRole={currentRole} user={user} setUser={setUser}/>
@@ -76,15 +87,7 @@ function App() {
         <AuthPage setUser={setUser}/>
       }
 
-      <nav>
-        <Link to="/myAppointments">Appointments</Link>
-            |
-        <Link to="myServices">Services</Link>
-            |
-        <Link to="/map">Map</Link>
-            |
-        <Link to="/">Home</Link>
-      </nav>
+      
       <div>
 
       <PaymentForm />
