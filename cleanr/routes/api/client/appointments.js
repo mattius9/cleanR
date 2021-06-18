@@ -6,5 +6,6 @@ const router = express.Router();
 router.get('/client/index', clientAppointmentsCtrl.index);
 // POST /api/client/create (allows the client to create an appointment, awaiting status) 
 router.post('/client/create', clientAppointmentsCtrl.create);
-
+//findById and update
+router.put('/client/respond/:id', agentAppointmentsCtrl.respond);
 module.exports = router;

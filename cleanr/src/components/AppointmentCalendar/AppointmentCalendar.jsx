@@ -6,7 +6,7 @@ import './AppointmentCalendar.css'
 export default function AppointmentCalendar(props) {
     return (
         <div className="calendar">
-            <Month />
+            <Month role={props.role} user={props.user} appointments={props.appointments}/>
         </div>
     )
 }

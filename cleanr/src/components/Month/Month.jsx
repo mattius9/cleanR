@@ -31,7 +31,7 @@ export default function Month(props) {
 
     function returnWeeks(weekList, monthInd){
         return Object.keys(weekList).map((key)=>{
-            return <Week month={monthInd} dayList={weekList[key]} />
+            return <Week role={props.role} user={props.user} month={monthInd} dayList={weekList[key]} appointments={props.appointments}/>
         })
         // return weekList.map((week)=>Week)
     }
@@ -123,7 +123,7 @@ export default function Month(props) {
                 <div className='month-switch'>
                     <button type="button" onClick={()=>{changeMonth(-1,null)}}className='month-button' id='prev-month-button'>&lt;</button>
                     <button type="button" onClick={()=>{changeMonth(1,null)}}className='month-button next-month' id='next-month-button'>&gt;</button>
-                    <button type="button" onClick={()=>{printStates()}}className='dev-button'>PrintStates and variables</button>
+                    {/* <button type="button" onClick={()=>{printStates()}}className='dev-button'>PrintStates and variables</button> */}
                 </div>
             </div>
 

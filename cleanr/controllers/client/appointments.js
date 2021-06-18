@@ -1,4 +1,3 @@
-const User = require('../../models/user');
 const Appointment = require('../../models/appointment');
 module.exports= {
     index,
