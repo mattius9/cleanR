@@ -40,12 +40,14 @@ const setTime = (time) => {
         const endTime= setTime(endTimeToDate);
     
         return(<PopupAppointmentCardForAgent 
-        address={`${appointment.client.location.address}, ${appointment.client.location.city}, ${appointment.client.location.region}`}
+        address1={`${appointment.client.location.address}`}
+        address2={`${appointment.client.location.city}, ${appointment.client.location.region}`}
         role={props.role}
         clientName = {appointment.client.displayName}
         user={props.user}
         status = {appointment.status}
         starts={startTime}
+        hours={hours}
         ends={endTime}
         price={totalPrice}
         id={appointment._id} >
@@ -63,13 +65,14 @@ const setTime = (time) => {
     const [dayString, setDayString] =useState(null) 
     useEffect(()=>{
     console.log("I was used")
+    test(props)
     const today = new Date(props.appointments[0].startTime)
     setDayString(today.toDateString())
 },[])
     return (props.trigger ? 
         <div className="popup">
             <div className="popup-inner">
-                {dayString ? <div classname="popup-title day-string">{dayString}</div>:null}
+                {dayString ? <div className="popup-title day-string">{dayString}</div>:null}
                 <hr/>
                 <div className="status-objects-container">
                     <div className="cancelled-circle-container">
@@ -101,7 +104,7 @@ const setTime = (time) => {
                 {appointmentObjects ? <div>{appointmentObjects}</div>:"No Appointments Today"}
 
                 </div>
-                <button type="button" onClick={()=>test(props)}>TEST</button>
+                {/* <button type="button" onClick={()=>test(props)}>TEST</button> */}
                 <button type="button" onClick={()=>props.setTrigger(false)}className="close-popup">close</button>
             </div>
             

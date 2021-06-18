@@ -123,7 +123,7 @@ export default function Month(props) {
                 <div className='month-switch'>
                     <button type="button" onClick={()=>{changeMonth(-1,null)}}className='month-button' id='prev-month-button'>&lt;</button>
                     <button type="button" onClick={()=>{changeMonth(1,null)}}className='month-button next-month' id='next-month-button'>&gt;</button>
-                    <button type="button" onClick={()=>{printStates()}}className='dev-button'>PrintStates and variables</button>
+                    {/* <button type="button" onClick={()=>{printStates()}}className='dev-button'>PrintStates and variables</button> */}
                 </div>
             </div>
 

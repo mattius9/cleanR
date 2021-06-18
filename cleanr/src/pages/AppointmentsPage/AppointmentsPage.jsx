@@ -16,17 +16,21 @@ export default function AppointmentsPage({user, role, setUser}) {
         console.log(e.target.id)
         if(e.target.id.includes('list')){
             calendarButtonEl.style.backgroundColor='white'
+            calendarButtonEl.style.color='black';
             calendarButtonEl.style.border= '2px'
             calendarButtonEl.style.borderTop= '0px'
             listButtonEl.style.backgroundColor='purple'
             listButtonEl.style.border='0px'
+            listButtonEl.style.color = 'white'
             setToggleAppointmentView('list')
         }
         else{
             listButtonEl.style.backgroundColor='white'
             listButtonEl.style.border= '2px'
             listButtonEl.style.borderTop= '0px'
+            listButtonEl.style.color = 'black'
             calendarButtonEl.style.backgroundColor='purple'
+            calendarButtonEl.style.color='white'
             calendarButtonEl.style.border='0px'
             setToggleAppointmentView('calendar')
         }
