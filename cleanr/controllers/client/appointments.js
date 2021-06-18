@@ -8,9 +8,7 @@ module.exports= {
 //Shows all of client/users appointments
 async function index(req, res){
 try{
-    console.log(req.headers.user);
     let appointments = await Appointment.find({$or: [{client : req.headers.user},{agent : req.headers.user}]}).populate('agent').populate('client').exec();
-    console.log(appointments);
     res.status(200).json(appointments);
 } catch(err){
     res.status(400).json(err);

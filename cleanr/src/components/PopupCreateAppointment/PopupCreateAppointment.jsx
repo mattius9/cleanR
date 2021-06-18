@@ -20,9 +20,7 @@ export default function PopupCreateAppointment({user, agent, service, trigger, s
     const [appointment, setAppointment] = useState(null);
 
     function convertDate(dateString){
-        console.log(`datestring: `, dateString);
         let date = new Date(dateString);
-        console.log(`date object`, date);
         return date.toISOString();
     }
 
@@ -69,7 +67,6 @@ export default function PopupCreateAppointment({user, agent, service, trigger, s
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      alert(`Submitting Appointment `);
       makeAppointment();
       
   }

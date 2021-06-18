@@ -29,7 +29,6 @@ export default function Appointment({role, user, appointment}) {
   
       const totalHours = Math.round(difference/hours)
       const apptDate = new Date(appointment.startTime)
-      console.log(role);
 
     console.log(apptDate.toLocaleString([], { hour12: true}));
     return (

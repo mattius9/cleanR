@@ -17,8 +17,6 @@ export default function ServicesPage({ currentRole, user, setUser}) {
     if(currentRole.role == "agent") {agentId = user._id;}
     // {currentRole == "client" ? agentId=user._id : null}
     
-    console.log(`UserID`,user._id);
-    console.log(`AgentID`, agentId);
     // Hooks
     useEffect( function(){
         async function fetchServices(){

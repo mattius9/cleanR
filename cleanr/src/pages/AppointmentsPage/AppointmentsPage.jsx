@@ -19,7 +19,6 @@ export default function AppointmentsPage({user, role, setUser}) {
         async function fetchAppointments(){
             try {
                 const data = await appointmentsAPI.getAppointments(user._id);
-                console.log(data);
                 if(data) setAppointments(data);
             } catch(err){
                 console.log(err.message);

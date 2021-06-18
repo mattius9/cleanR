@@ -1,7 +1,6 @@
 import "./ServiceList.css";
 import React, {useState} from 'react';
 import Service from '../Service/Service';
-import PopupCreateAppointment from '../PopupCreateAppointment/PopupCreateAppointment';
 
 import * as servicesAPI from '../../utilities/services-api';
 
@@ -10,14 +9,10 @@ export default function ServiceList({agent, currentRole, user,services,setServic
     const [name, setName] = useInput({type: "text"}, "Service Name");
     const [price, setPrice] = useInput({type: "number"}, "Hourly Price");
     const [minHours, setMinHours] = useState(3);
-    // const [popupBoolean, setPopupBoolean] = useState(false)
 
-    console.log(`Services on ServiceList ${services}`)
     let serviceList = null;
-    console.log(`Services: ${Object.keys(services)}`);
     if (services){
         
-        // serviceList = services.map(service => console.log(service))
         serviceList = services.map(service =>{
             if(currentRole.role == "agent"){
                 return(<Service 
@@ -32,8 +27,6 @@ export default function ServiceList({agent, currentRole, user,services,setServic
                             agent = {agent}
                         />)
             }
-            
-
         });
     }
 
@@ -52,7 +45,6 @@ export default function ServiceList({agent, currentRole, user,services,setServic
         }
         try{
             let response = await servicesAPI.addService(user._id, newService);
-            console.log(response);
             setServices(response);
             
         }
