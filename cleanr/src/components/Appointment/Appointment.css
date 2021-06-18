@@ -46,7 +46,7 @@ p{
     background: linear-gradient(
         hsl(0 0% 0% / 0),
         hsl(20 0% 0% / 0.3) 20%,
-        grayscale
+        hsl(0  0% 50%)
     );
 }
 .appt-user{
