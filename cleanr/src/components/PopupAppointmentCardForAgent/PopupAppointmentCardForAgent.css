@@ -5,7 +5,7 @@
     background-color: red;
 }
 .confirmed-popup-card{
-    background-color: purple;
+    background-color: var(--clr-purple);
 }
 .cancelled-popup-card{
     display: grid;

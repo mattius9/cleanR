@@ -16,16 +16,16 @@ export default function AuthPage(props) {
         <div className="Page">
             <Switch>
             {authView === 'login' ? 
-            <div className="login">
+            <div className="login-form">
                 <LoginForm setUser={props.setUser} />
-                <button onClick={()=>{setAuthView('signup')}}>Sign Up</button>
+                <button className="login-btn"onClick={()=>{setAuthView('signup')}}>Sign Up</button>
             </div>
             :
-            <div className="signup">
+            <div className="login-form">
                 <SignUpForm setUser={props.setUser}/>
                 <button onClick={()=>{setAuthView('login')}}>Login</button>
             </div>}
-            <button onClick={()=>{propsDisplay(props)}}>PROPS</button>
+            <button className="login-btn" onClick={()=>{propsDisplay(props)}}>PROPS</button>
                 <Route path="/signup">
                     
                 </Route>

@@ -31,7 +31,7 @@
 }
 .date-button{
     cursor:pointer;
-    background:purple;
+    background:var(--clr-purple);
     color:yellow;
 }
 .date-number{

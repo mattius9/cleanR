@@ -17,7 +17,7 @@ export default function AppointmentsPage({user, role, setUser}) {
             calendarButtonEl.style.color='black';
             calendarButtonEl.style.border= '2px';
             calendarButtonEl.style.borderTop= '0px';
-            listButtonEl.style.backgroundColor='purple';
+            listButtonEl.style.backgroundColor='var(--clr-purple)';
             listButtonEl.style.border='0px';
             listButtonEl.style.color = 'white';
             setToggleAppointmentView('list');
@@ -27,7 +27,7 @@ export default function AppointmentsPage({user, role, setUser}) {
             listButtonEl.style.border= '2px';
             listButtonEl.style.borderTop= '0px';
             listButtonEl.style.color = 'black';
-            calendarButtonEl.style.backgroundColor='purple';
+            calendarButtonEl.style.backgroundColor='var(--clr-purple)';
             calendarButtonEl.style.color='white';
             calendarButtonEl.style.border='0px';
             setToggleAppointmentView('calendar');

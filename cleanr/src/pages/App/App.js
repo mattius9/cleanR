@@ -35,20 +35,25 @@ function App() {
   return (
     
     <div className="App">
-      <header className="App-header">cleanR</header>
+      <header className="App-header shadow">
+        <h1>cleanR</h1>
       <nav className = "nav-links">
         <Link className= "nav-links" to="/myAppointments">Appointments</Link>
             |
         {currentRole.role ==="agent" ? <><Link className= "nav-links" to="myServices">Services</Link> |</> : null}
         <Link className= "nav-links" to="/map">Map</Link>
-            |
-        <LogOut user={user} setUser={setUser}/>
       </nav>
+      <div className="nav-user"><LogOut  user={user} setUser={setUser}/></div>
+      
+      </header>
+      {user ? <div>
+        <div>{user.displayName}</div>
+        </div>:null}
       {user ? 
-        (user.roles.length > 1 ? (<>
+        (user.roles.length > 1 ? (<div className="toggle-role-container">
           <button value="agent" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({role: e.target.value})}}>Agent</button>
           <button value="client" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({ role: e.target.value})}}>Client</button>
-        </>) : null)
+        </div>) : null)
         : null
       }
           <div>{currentRole.role}</div>
@@ -88,10 +93,8 @@ function App() {
       
       <div>
 
-      <PaymentForm />
+      {/* <PaymentForm /> */}
       </div>
-      <button onClick={()=>{setUser('Doug')}}>Doug</button>
-      <button onClick={()=>{setUser(null)}}>Null</button>
     </div>
   );
 }

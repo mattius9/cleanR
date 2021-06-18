@@ -1,4 +1,5 @@
 
+import './LoginForm.css';
 import React, {useState} from 'react'
 import {login} from "../../utilities/users-service"
 export default function LoginForm(props) {
@@ -26,13 +27,18 @@ export default function LoginForm(props) {
         <div className="Component">
             Login
 
-            <form>
-                <label for="username">Username:</label>
-                <input value={loginName} onChange={(e)=>{setLoginName(e.target.value)}} type="text" id="username"></input>
+            <form className="login-form">
+                <div>
+                    <label for="username">Username:</label>
+                    <input value={loginName} onChange={(e)=>{setLoginName(e.target.value)}} type="text" id="username"></input>
+                </div>
                 
-                <label for="password"> Password</label>
-                <input value={loginPass} onChange={(e)=>{setLoginPass(e.target.value)}} type="password" id="password"></input>
-                <button type="button" onClick={()=>{submitLogin()}}>Login</button>
+                <div>
+                    <label for="password"> Password</label>
+                    <input value={loginPass} onChange={(e)=>{setLoginPass(e.target.value)}} type="password" id="password"></input>
+                </div>
+                
+                <button className="login-btn" type="button" onClick={()=>{submitLogin()}}>Login</button>
             </form>
         </div>
     )

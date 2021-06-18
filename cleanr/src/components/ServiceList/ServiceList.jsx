@@ -15,13 +15,15 @@ export default function ServiceList({agent, currentRole, user,services,setServic
         
         serviceList = services.map(service =>{
             if(currentRole.role == "agent"){
-                return(<Service 
+                return(<Service
+                        currentRole = {currentRole}
                         user = {user}
                         service = {service}
                     />)
             }
             else if( currentRole.role == "client"){
                 return(<Service 
+                            currentRole = {currentRole}
                             user = {user}
                             service = {service}
                             agent = {agent}
