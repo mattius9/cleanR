@@ -74,39 +74,7 @@ export default function Day(props) {
             
             
             </div>:null}
-                {/* {date !== 0 ? (
-                    
-                    <div>
-                    {appointmentsToday ? 
-                    <div className="appointment-button-container"> 
-                    <Popup trigger={popupBoolean} setTrigger={setPopupBoolean}/>
-                    <button type="button" onClick={(e)=>{printDateDetails()}}className="date-button">{date}</button>
-                    </div>
-                    :
-                    <div className="appointment-button-container"> 
-                    <div className="date-number">{date}</div></div>)
-                :null}
-                </div>
 
-
-{date !== 0 ? 
-                <div> 
-                    {/* <button type="button" onClick={(e)=>{setPopupBoolean(true)}}className="date-button">{date}</button> */}
-                    {/* <button type="button" onClick={(e)=>{printDateDetails()}}className="date-button">{date}</button> */}
-                    {/* <Popup trigger={popupBoolean} setTrigger={setPopupBoolean}/> 
-                    {appointmentsToday ? 
-                    <div className="appointment-in-calendar">Appointment</div>
-                    :
-                    <>
-                    <div className="appointment-button-container"> <div className="date-number">{date}</div></div>
-                    </>}
-                </div>
-                :null} */}
-                {/* {props.date !== 0 ? props.date:null} */}
-            {/* </div>
-            <div className="day-appointments"> */}
-
-            {/* </div> */} 
         </div>
         </div>
     )

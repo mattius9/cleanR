@@ -59,10 +59,6 @@ export default function AppointmentsPage({user, role, setUser}) {
             <AppointmentList role ={role} user ={user} appointments={appointments}/>:
             <AppointmentCalendar user={user} role={role} appointments={appointments}/>}
             </div>
-            <div className="toggle-appointment-view">
-                <button type="button" id="appt-list" className="appt-view-btn calendar">List</button> 
-                <button type="button" id="appt-calendar" className="appt-view-btn list">Calendar</button> 
-                </div>
         </div>
     )
 }
