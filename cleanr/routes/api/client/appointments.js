@@ -7,5 +7,5 @@ router.get('/client/index', appointmentsCtrl.index);
 // POST /api/client/create (allows the client to create an appointment, awaiting status) 
 router.post('/client/create', appointmentsCtrl.create);
 //findById and update
-// router.put('/client/respond/:id', appointmentsCtrl.respond);
+router.put('/client/respond/:id', appointmentsCtrl.respond);
 module.exports = router;

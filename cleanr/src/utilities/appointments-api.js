@@ -13,6 +13,11 @@ export function makeAppointment(appointment){
     return fetch(`${BASE_URL}/client/create`, options).then(res => res.json());
 }
 
+export function changeAppointmentStatus(appointmentId,choice){
+  const options = getOptionsPut(choice);
+  return fetch(`${BASE_URL}/client/respond/${appointmentId}`, options).then(res => res.json());
+}
+
 // Options Helper Functions
 
 function getOptionsGet(userId) {
@@ -37,16 +42,13 @@ function getOptionsPost(appointment) {
   };
 }
 
-function getOptionsPut(userId, data) {
-  const id = userId
-  const content = data
+function getOptionsPut(data) {
   return {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${getToken()}`,
-      user: id
     },
-    body: JSON.stringify(content)
+    body: JSON.stringify(data)
   };
 }

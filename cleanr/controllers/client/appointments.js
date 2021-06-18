@@ -1,7 +1,9 @@
 const Appointment = require('../../models/appointment');
+const User = require('../../models/user');
 module.exports= {
     index,
     create,
+    respond
 }
 
 //Shows all of client/users appointments
@@ -23,6 +25,24 @@ async function create(req, res){
         let agent = await User.findById(req.body.agent);
         agent.appointments.push(appointment._id);
         res.status(200).json(appointment);
+    } catch(err){
+        res.status(400).json(err);
+    }
+}
+
+// Responding to a pending or confirmed appointment
+async function respond(req, res){
+    try{
+        console.log(req.params.id);
+        console.log(req.body.status);
+        console.log(req.body);
+        let appointment = await Appointment.findById(req.params.id);
+        console.log(appointment);
+        appointment.status = req.body.status;
+        console.log(appointment.status);
+        await appointment.save();
+        
+        res.status(200).json(appointment.status);
     } catch(err){
         res.status(400).json(err);
     }
