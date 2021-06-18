@@ -35,14 +35,22 @@ function App() {
     
     <div className="App">
       <header className="App-header">cleanR</header>
+      <nav className = "nav-links">
+        <Link className= "nav-links" to="/myAppointments">Appointments</Link>
+            |
+        {currentRole.role ==="agent" ? <><Link className= "nav-links" to="myServices">Services</Link> |</> : null}
+        <Link className= "nav-links" to="/map">Map</Link>
+            |
+        <Link className= "nav-links" to="/">Home</Link>
+      </nav>
       {user ? 
         (user.roles.length > 1 ? (<>
           <button value="agent" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({role: e.target.value})}}>Agent</button>
           <button value="client" className="toggle-role" type="button" onClick={(e)=>{setCurrentRole({ role: e.target.value})}}>Client</button>
         </>) : null)
-        : null}
+        : null
+      }
           <div>{currentRole.role}</div>
-
       { user ? (currentRole.role==="client" 
         ? 
             <Switch>
@@ -76,15 +84,7 @@ function App() {
         <AuthPage setUser={setUser}/>
       }
 
-      <nav>
-        <Link to="/myAppointments">Appointments</Link>
-            |
-        <Link to="myServices">Services</Link>
-            |
-        <Link to="/map">Map</Link>
-            |
-        <Link to="/">Home</Link>
-      </nav>
+      
       <div>
 
       <PaymentForm />

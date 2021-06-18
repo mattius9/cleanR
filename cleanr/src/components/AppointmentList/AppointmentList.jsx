@@ -8,12 +8,12 @@ export default function AppointmentList({role, user, appointments}) {
     if (appointments){
         appointmentList = appointments.map(appointment =>{
             if(role.role == "client" && user._id == appointment.client._id){
-                    return(<Appointment 
+                    return(<Appointment className = {appointment.status} 
                         appointment = {appointment} role={role} user={user}
                         />)
             }
             else if( role.role == "agent" && user._id == appointment.agent._id){
-                    return(<Appointment 
+                    return(<Appointment className = {appointment.status} 
                     appointment = {appointment} role={role} user={user}
                     />)
             }

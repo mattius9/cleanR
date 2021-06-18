@@ -32,7 +32,7 @@ export default function Appointment({role, user, appointment}) {
 
     console.log(apptDate.toLocaleString([], { hour12: true}));
     return (
-        <div className="card">
+        <div className={`card appt-status-${appointment.status}`}>
             <div className={`appointment-card appt-status-${appointment.status}`}>
                 <div className="appointment-details appt-service-title">Service: {appointment.serviceName}</div>
                 <div className="appointment-details appt-date">{startTimeToDate.getFullYear() + "/" + (startTimeToDate.getMonth() + 1) + "/" + startTimeToDate.getDate()}</div>
@@ -40,6 +40,7 @@ export default function Appointment({role, user, appointment}) {
                 <div className="appointment-details appt-user1">agent: {appointment.agent.name}</div>
                 <div className="appointment-details appt-user2">client: {appointment.client.name}</div>
                 <div className="appointment-details appt-service-price">${appointment.servicePrice*totalHours} </div>
+                <div>{appointment.status}</div>
             </div>
             {/* <p>total price: {appointment.servicePrice*totalHours}</p> */}
         </div>

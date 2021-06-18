@@ -24,17 +24,17 @@
   color: black;
 }
 
-.App-link {
+.nav-links,
+.nav-links:visited {
   color: #61dafb;
+  text-decoration: none;
 }
 
 .Page{
-  /* border: 1px solid green; */
   min-width: 80%;
 }
 
 .Component{
-  /* border: 1px solid red; */
   min-width: 30%;
 }
 
@@ -48,7 +48,6 @@
   background-size: cover;
   padding: 0.5rem 0;
   border-radius: 0.25rem;
-  border: 1px solid red;
 
   transition: transform 100ms ease-in;
 }
