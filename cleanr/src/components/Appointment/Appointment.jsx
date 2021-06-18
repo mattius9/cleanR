@@ -8,7 +8,7 @@ export default function Appointment({role, user, appointment}) {
     const [status, setStatus] = useState(null);
 
 
-    function changeStatus(id, choice){
+    async function changeStatus(id, choice){
         let response = await appointmentsApi.changeAppointmentStatus(id,{status: choice});
         console.log(response);
         setStatus(response);
