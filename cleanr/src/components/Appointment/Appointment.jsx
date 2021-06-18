@@ -35,11 +35,12 @@ export default function Appointment({role, user, appointment}) {
     return (
         <div className="card">
             <div className={`appointment-card appt-status-${appointment.status}`}>
+                {role=== 'agent' ? 
+                <div className="appointment-details appt-user">for: {appointment.client.name}</div>:
+                <div className="appointment-details appt-user">with {appointment.agent.displayName}</div>}
                 <div className="appointment-details appt-service-title">Service: {appointment.serviceName}</div>
                 <div className="appointment-details appt-date">{startTimeToDate.getFullYear() + "/" + (startTimeToDate.getMonth() + 1) + "/" + startTimeToDate.getDate()}</div>
-                <div className="appointment-details appt-times">@{startTime} for {totalHours} hrs</div>
-                <div className="appointment-details appt-user1">agent: {appointment.agent.name}</div>
-                <div className="appointment-details appt-user2">client: {appointment.client.name}</div>
+                <div className="appointment-details appt-times">@{startTime}<br/> for {totalHours} hrs</div>
                 <div className="appointment-details appt-service-price">${appointment.servicePrice*totalHours} </div>
             </div>
             {/* <p>total price: {appointment.servicePrice*totalHours}</p> */}
