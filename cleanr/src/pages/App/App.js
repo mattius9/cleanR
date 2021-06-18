@@ -42,8 +42,6 @@ function App() {
         {currentRole.role ==="agent" ? <><Link className= "nav-links" to="myServices">Services</Link> |</> : null}
         <Link className= "nav-links" to="/map">Map</Link>
             |
-        <Link className= "nav-links" to="/">Home</Link>
-            |
         <LogOut user={user} setUser={setUser}/>
       </nav>
       {user ? 

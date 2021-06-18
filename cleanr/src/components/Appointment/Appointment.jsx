@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Appointment.css';
+
+import * as appointmentsApi from '../../utilities/appointments-api';
 
 export default function Appointment({role, user, appointment}) {
 
     const [status, setStatus] = useState(null);
 
-    async function changeStatus(choice){
-        if(choice == "pending"){
-            // await updateAppointmentStatus
-        }
+
+    async function changeStatus(id, choice){
+        let response = await appointmentsApi.changeAppointmentStatus(id,{status: choice});
+        console.log(response);
+        setStatus(response);
     }
+
 
 
     const setTime = (time) => {
@@ -53,18 +57,23 @@ export default function Appointment({role, user, appointment}) {
                 <div className="appointment-details appt-user2">client: {appointment.client.name}</div>
                 <div className="appointment-details appt-service-price">${appointment.servicePrice*totalHours}</div>
                 <div>{appointment.status}</div>
-                {appointment.status == "pending" ? 
+                {appointment.status == "pending" && role.role == "agent" ? 
                     <div>
-                        <button type="button" onClick={(e)=>{changeStatus("accept")}}>Accept</button>
-                        <button type="button" onClick={(e)=>{changeStatus("cancel")}}>Reject</button>
+                        <button type="button" onClick={()=>{changeStatus(appointment._id,"confirmed")}}>Accept</button>
+                        <button type="button" onClick={()=>{changeStatus(appointment._id,"cancelled")}}>Reject</button>
                     </div>
-                :
-                    null
+                : 
+                    (appointment.status == "pending" && role.role == "client" ? 
+                        <div><button type="button" onClick={()=>{changeStatus(appointment._id,"cancelled")}}>Cancel</button></div>
+                        :
+                        null
+                    )
+                    
                 }           
                 {appointment.status == "confirmed" ?
                     <div>
-                        <button type="button" onClick={(e)=>{changeStatus("cancel")}}>
-                            Accept
+                        <button type="button" onClick={(e)=>{changeStatus(appointment._id,"cancelled")}}>
+                            Cancel
                         </button>
                     </div>
                 :
