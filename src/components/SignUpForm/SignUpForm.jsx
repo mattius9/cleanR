@@ -512,7 +512,6 @@ export default function SignUpForm(props) {
                     
                     <button className="last-page-button" type="button" onClick={()=>{changeSignUpView(3)}}>Go to previous view</button>
                     <button type="button" onClick={()=>{submitSignUp()}} >Submit</button>
-                    <input className="signup-submit" onClick={(e)=>{handleSubmit(e)}} type="submit" value="Submit!" />
                 </div>
                ))))}
                <div id="errorMessage"></div>
