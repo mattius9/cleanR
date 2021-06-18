@@ -1,19 +1,39 @@
 import React, {useState, useEffect} from 'react'
 import './PopupAppointmentCardForAgent.css'
+import * as appointmentsApi from '../../utilities/appointments-api';
 
 export default function PopupAppointmentCardForAgent(props) {
+
+    async function changeDBStatus(id, choice){
+        console.log(id)
+        let response = await appointmentsApi.changeAppointmentStatus(id,{status: choice});
+
+    }
+
+    
     const [status, changeStatus] = useState(props.status)
+    
     useEffect(()=>{
         console.log('props', props)
         console.log('endprops')
     },[])
     function pendingChange(newStatus){
         console.log(newStatus)
+        console.log('id',props.id)
+        console.log('role', props.role)
         if (newStatus==='cancelled'){
             changeStatus('cancelled')
+            if (props.role.role ==='agent'){
+                console.log('changing Status')
+                changeDBStatus(props.id, 'cancelled')
+            }
         }
         else if(newStatus==='confirmed'){
             changeStatus('confirmed')
+            if (props.role.role ==='agent'){
+                console.log('changing Status')
+                changeDBStatus(props.id, 'confirmed')
+            }
         }
     }
     return (
