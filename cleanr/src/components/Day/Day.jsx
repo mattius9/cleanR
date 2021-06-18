@@ -10,7 +10,7 @@ export default function Day(props) {
     const [popupBoolean, setPopupBoolean] = useState(false)
     const listOfAppointments = [];
     useEffect(()=>{
-        setDate(props.date)
+        setDate(props.date,'date')
     },[props.date])
 
     useEffect(()=>{
@@ -20,6 +20,8 @@ export default function Day(props) {
             const aptMonth = newDate.getMonth()
             const aptDate = newDate.getDate()
             if (props.month === aptMonth && aptDate === props.date){
+                console.log(props.role,'role')
+                console.log(appointment, 'appointment')
                 listOfAppointments.push(appointment)
             }
         })
