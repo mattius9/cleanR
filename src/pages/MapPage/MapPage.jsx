@@ -12,10 +12,11 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
     const [lat, setLat] = useState(51.505);
     const [lng, setLng] = useState(-0.09);
 
+    let map;
 
     function LocationMarker() {
         const [position, setPosition] = useState(null)
-        const map = useMap();
+        map = useMap();
         
         useEffect(() => {
             map.locate().on("locationfound", function(e){
@@ -47,12 +48,12 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
             }
             fetchAppointments();
 
-        },[]);
+        },[map]);
 
         return appointments.length === 0 ? null : (
             appointments.map((appointment, idx) =>
                 <Marker key={`marker-${idx}`} position={[appointment.client.latitude,appointment.client.longitude]}>
-                    <Popup>Appointment at {appointment.client.location.address} on {appointment.startTime}<Link/></Popup>
+                    <Popup>Appointment at {appointment.client.location.address} on {appointment.startTime.slice(0,10)}<Link/></Popup>
                 </Marker>
             )
         )
@@ -73,12 +74,12 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
                 }
             }
             fetchAgents();
-        },[]);
+        },[map]);
 
         return agents.length === 0 ? null : (
             agents.map((agent, idx) =>
                 <Marker key={`marker-${idx}`} position={[agent.latitude, agent.longitude]}>
-                    <Popup>AGENT: {agent.name} ID: {agent._id}<Link to={`/services/${agent._id}`}>Services</Link></Popup>
+                    <Popup>Agent: {agent.name}<Link to={`/services/${agent._id}`}>See my Services</Link></Popup>
                 </Marker>
             )
         )
