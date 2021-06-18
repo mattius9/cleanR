@@ -31,7 +31,7 @@ export default function Month(props) {
 
     function returnWeeks(weekList, monthInd){
         return Object.keys(weekList).map((key)=>{
-            return <Week month={monthInd} dayList={weekList[key]} />
+            return <Week role={props.role} user={props.user} month={monthInd} dayList={weekList[key]} appointments={props.appointments}/>
         })
         // return weekList.map((week)=>Week)
     }

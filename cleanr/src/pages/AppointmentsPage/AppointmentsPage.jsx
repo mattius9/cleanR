@@ -11,8 +11,25 @@ export default function AppointmentsPage({user, role, setUser}) {
     const [appointments, setAppointments] = useState([]);
     const[toggleAppointmentView, setToggleAppointmentView] = useState('list')
     function switchView(e){
-        document.getElementById('appt-list');
-        document.getElementById('appt-calendar');
+        const listButtonEl = document.getElementById('appt-list');
+        const calendarButtonEl = document.getElementById('appt-calendar');
+        console.log(e.target.id)
+        if(e.target.id.includes('list')){
+            calendarButtonEl.style.backgroundColor='white'
+            calendarButtonEl.style.border= '2px'
+            calendarButtonEl.style.borderTop= '0px'
+            listButtonEl.style.backgroundColor='purple'
+            listButtonEl.style.border='0px'
+            setToggleAppointmentView('list')
+        }
+        else{
+            listButtonEl.style.backgroundColor='white'
+            listButtonEl.style.border= '2px'
+            listButtonEl.style.borderTop= '0px'
+            calendarButtonEl.style.backgroundColor='purple'
+            calendarButtonEl.style.border='0px'
+            setToggleAppointmentView('calendar')
+        }
     }
 
     useEffect( function(){
@@ -30,16 +47,17 @@ export default function AppointmentsPage({user, role, setUser}) {
 
     return (
         <div className="Page">
+            <div className="toggle-appointment-view">
+                <button type="button" onClick={(e)=>switchView(e)}id="appt-list" className="appt-view-btn calendar">List</button> 
+                <button type="button" onClick={(e)=>switchView(e)} id="appt-calendar" className="appt-view-btn list">Calendar</button> 
+                </div>
             <div className="appointment-container">
+                
                 
             {toggleAppointmentView === 'list' ?
             <AppointmentList role ={role} user ={user} appointments={appointments}/>:
-            <AppointmentCalendar />}
+            <AppointmentCalendar user={user} role={role} appointments={appointments}/>}
             </div>
-            <div className="toggle-appointment-view">
-                <button type="button" id="appt-list" className="appt-view-btn calendar">List</button> 
-                <button type="button" id="appt-calendar" className="appt-view-btn list">Calendar</button> 
-                </div>
             <LogOut user={user} setUser={setUser}/>
         </div>
     )
