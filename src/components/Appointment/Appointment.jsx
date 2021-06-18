@@ -10,7 +10,6 @@ export default function Appointment({role, user, appointment}) {
 
     async function changeStatus(id, choice){
         let response = await appointmentsApi.changeAppointmentStatus(id,{status: choice});
-        console.log(response);
         setStatus(response);
     }
 
@@ -43,7 +42,6 @@ export default function Appointment({role, user, appointment}) {
       const totalHours = Math.round(difference/hours)
       const apptDate = new Date(appointment.startTime)
 
-    console.log(apptDate.toLocaleString([], { hour12: true}));
     return (
         <div className={`card appt-status-${appointment.status}`}>
             <div className={`appointment-card appt-status-${appointment.status}`}>

@@ -5,7 +5,6 @@ import './AppointmentList.css';
 export default function AppointmentList({role, user, appointments}) {
     
     let appointmentList = null;
-    console.log(appointments)
     if (appointments){
         appointmentList = appointments.map(appointment =>{
             if(role.role == "client" && user._id == appointment.client._id){

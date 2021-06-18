@@ -33,15 +33,9 @@ async function create(req, res){
 // Responding to a pending or confirmed appointment
 async function respond(req, res){
     try{
-        console.log(req.params.id);
-        console.log(req.body.status);
-        console.log(req.body);
         let appointment = await Appointment.findById(req.params.id);
-        console.log(appointment);
         appointment.status = req.body.status;
-        console.log(appointment.status);
-        await appointment.save();
-        
+        await appointment.save();   
         res.status(200).json(appointment.status);
     } catch(err){
         res.status(400).json(err);

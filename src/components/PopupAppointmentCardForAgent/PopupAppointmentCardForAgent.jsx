@@ -5,7 +5,6 @@ import * as appointmentsApi from '../../utilities/appointments-api';
 export default function PopupAppointmentCardForAgent(props) {
 
     async function changeDBStatus(id, choice){
-        console.log(id)
         let response = await appointmentsApi.changeAppointmentStatus(id,{status: choice});
 
     }

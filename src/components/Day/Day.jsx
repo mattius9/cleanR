@@ -20,8 +20,6 @@ export default function Day(props) {
             const aptMonth = newDate.getMonth()
             const aptDate = newDate.getDate()
             if (props.month === aptMonth && aptDate === props.date){
-                console.log(props.role,'role')
-                console.log(appointment, 'appointment')
                 listOfAppointments.push(appointment)
             }
         })
@@ -36,7 +34,6 @@ export default function Day(props) {
             const aptMonth = newDate.getMonth()
             const aptDate = newDate.getDate()
             if (props.month === aptMonth && aptDate === props.date){
-                console.log('There is an appointment today')
             }
         })
 

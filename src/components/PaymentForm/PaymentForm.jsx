@@ -6,13 +6,10 @@ const PaymentForm = ()=>{
     const stripe = useStripe();
     const handleSubmit = async(e) =>{
         e.preventDefault()
-        console.log(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
         if (!stripe || !elements){
             return null;
         }
         const cardElement = elements.getElement(CardElement);
-        console.log('card', cardElement)
-        console.log('stripe', stripe)
     }
     return (
         <div>

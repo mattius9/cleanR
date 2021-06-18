@@ -10,7 +10,6 @@ import {Elements} from '@stripe/react-stripe-js'
 (async()=>{
   const publishableKey = await process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
   const stripePromise = loadStripe(publishableKey)
-  console.log(publishableKey)
   ReactDOM.render(
     <React.StrictMode>
       <Router>

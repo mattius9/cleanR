@@ -11,7 +11,6 @@ export default function AppointmentsPage({user, role, setUser}) {
     function switchView(e){
         const listButtonEl = document.getElementById('appt-list');
         const calendarButtonEl = document.getElementById('appt-calendar');
-        console.log(e.target.id)
         if(e.target.id.includes('list')){
             calendarButtonEl.style.backgroundColor='white'
             calendarButtonEl.style.color='black';

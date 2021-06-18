@@ -14,16 +14,16 @@ export default function Month(props) {
     const [year, setYear] = useState(yearToday)
     const [weekObject, setWeekObject] = useState(createFirstMonthWeeks(monthIndexToday,yearToday))
     
-    function printStates(){
+    // function printStates(){
 
-        console.log(` date Object---> ${dateObjectToday}`);
-        console.log(`date--->${dateToday}`);
-        console.log(` month---> ${month}`);
-        console.log(`year--->${year}`);
-        console.log(` monthIndex---> ${monthIndex}`);
-        console.log(` weekObject---> ${weekObject}`);
-        console.log(` dayToday---> ${dayToday}`);
-    }
+    //     console.log(` date Object---> ${dateObjectToday}`);
+    //     console.log(`date--->${dateToday}`);
+    //     console.log(` month---> ${month}`);
+    //     console.log(`year--->${year}`);
+    //     console.log(` monthIndex---> ${monthIndex}`);
+    //     console.log(` weekObject---> ${weekObject}`);
+    //     console.log(` dayToday---> ${dayToday}`);
+    // }
     useEffect(()=>{
         console.log(month)
     },[month, weekObject]);
