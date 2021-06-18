@@ -59,7 +59,7 @@ export default function ServiceList({agent, currentRole, user,services,setServic
     return (
         <div className="Component">
             {serviceList ? <>{serviceList}</>:<p>No Services Yet</p>}
-            {currentRole.role == "agent" ? 
+            {currentRole.role == "agent" ?
                 <table className="add-service-form">
                     <thead>
                         <th>Add Service</th>
@@ -93,9 +93,8 @@ export default function ServiceList({agent, currentRole, user,services,setServic
                     </tbody>
                     <button onClick={addService}>Add Service</button>
                 </table>
-    
             :
-                <>Client view</>
+                null
             }
             
 
