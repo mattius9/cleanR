@@ -8,10 +8,10 @@ export function getAppointments(userId) {
     return fetch(`${BASE_URL}/client/index`, options).then(res => res.json());
 }
 
-// export function getInProximity(){
-//   const options = getOptionsGet();
-//   return fetch(`${BASE_URL}/`)
-// }
+export function makeAppointment(appointment){
+    const options = getOptionsPost(appointment);
+    return fetch(`${BASE_URL}/client/create`, options).then(res => res.json());
+}
 
 // Options Helper Functions
 
@@ -26,13 +26,14 @@ function getOptionsGet(userId) {
   };
 }
 
-function getOptionsPost() {
+function getOptionsPost(appointment) {
   return {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify(appointment)
   };
 }
 

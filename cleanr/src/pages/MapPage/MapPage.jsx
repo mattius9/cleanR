@@ -1,6 +1,5 @@
 import './MapPage.css';
 import React, { useEffect, useState} from 'react';
-import LogOut from '../../components/LogOut/LogOut';
 import { MapContainer, Marker, Popup, useMap} from 'react-leaflet';
 import { BasemapLayer} from "react-esri-leaflet";
 import {Link} from 'react-router-dom';
@@ -12,7 +11,6 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
     // Lat & LNG used for testing
     const [lat, setLat] = useState(51.505);
     const [lng, setLng] = useState(-0.09);
-    console.log(currentRole.role);
 
 
     function LocationMarker() {
@@ -40,12 +38,8 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
 
             async function fetchAppointments(){
                 try {
-                    console.log('REACHED BEFORE FETCH');
-                    console.log(`USER ID`, user._id);
                     // Using this route in case of separation of services from user in model
                     const data = await mapsAPI.getAppointments(user._id);
-                    console.log('REACHED BEYOND FETCH');
-                    console.log(data);
                     if(data) setAppointments(data);
                 } catch(err){
                     console.log(JSON.parse(err));
@@ -53,8 +47,6 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
             }
             fetchAppointments();
 
-            // setAppointments([[10, -45], [-20, -30], [-30, 70]]);
-            //SET MARKERS USING API CALL FOR APPOINTMENTS
         },[]);
 
         return appointments.length === 0 ? null : (
@@ -75,15 +67,12 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
                 try {
                     // Using this route in case of separation of services from user in model
                     const data = await mapsAPI.getAgents();
-                    console.log(data);
                     if(data) setAgents(data);
                 } catch(err){
                     console.log(JSON.parse(err));
                 }
             }
             fetchAgents();
-
-            // setAgents([[-50, -15], [-60, -30], [-60, -80]]);
         },[]);
 
         return agents.length === 0 ? null : (
@@ -110,7 +99,6 @@ export default function MapPage({ currentRole, user, setUser, setAgent}) {
                 <Marker position={[lat,lng]} />
 
             </MapContainer>
-            <LogOut user={user} setUser={setUser}/>
 
         </div>
     )
